@@ -1,9 +1,6 @@
 package com.airlinereservationsystem.main.model;
 
-<<<<<<< HEAD
-public class Customer {
 
-=======
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -90,6 +87,5 @@ public class Customer {
 	}
 	
 	
-	
->>>>>>> dc74faaf04e696baf1c5272ee990437d56c67996
+
 }
