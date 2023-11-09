@@ -1,23 +1,11 @@
-package com.airlinereservationsystem.main.model;
+package com.airlinereservationsystem.main.dto;
 
-<<<<<<< HEAD
-public class Customer {
-
-=======
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.airlinereservationsystem.main.model.User;
 
+public class CustomerDto {
 
-@Entity
-public class Customer {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
 	private String name;
 	private int age;
 	private String gender;
@@ -27,12 +15,10 @@ public class Customer {
 	@OneToOne
 	private User user;
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
+	@Override
+	public String toString() {
+		return "CustomerDto [name=" + name + ", age=" + age + ", gender=" + gender + ", email=" + email + ", phone="
+				+ phone + ", user=" + user + "]";
 	}
 
 	public String getName() {
@@ -82,14 +68,6 @@ public class Customer {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-	@Override
-	public String toString() {
-		return "Customer [id=" + id + ", name=" + name + ", age=" + age + ", gender=" + gender + ", email=" + email
-				+ ", phone=" + phone + ", user=" + user + "]";
-	}
 	
 	
-	
->>>>>>> dc74faaf04e696baf1c5272ee990437d56c67996
 }
