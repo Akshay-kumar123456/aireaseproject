@@ -14,22 +14,26 @@ import com.airlinereservationsystem.main.repository.AirlineRepository;
 
 @Service
 public class AirlineService {
-@Autowired
-private AirlineRepository airlineRepository;
+	@Autowired
+	private AirlineRepository airlineRepository;
+
 	public Airline insert(Airline airline) {
-		
+
 		return airlineRepository.save(airline);
 	}
+
 	public Airline getAirline(int id) throws InvalidIDException {
 		Optional<Airline> optional = airlineRepository.findById(id);
 		if (!optional.isPresent()) {
 			throw new InvalidIDException("Airline ID invalid");
 		}
 		return optional.get();
-}
-	public  List<Airline> getAll(Pageable pageable) {
+	}
+
+	public List<Airline> getAll(Pageable pageable) {
 		return airlineRepository.findAll(pageable).getContent();
 	}
+
 	public void deleteAirline(Airline airline) {
 		airlineRepository.delete(airline);
 	}

@@ -38,7 +38,7 @@ public class ExecutiveController {
 		String passwordPlain =user.getPassword();
 		String encodedPassword =passwordEncoder.encode(passwordPlain);
 		user.setPassword(encodedPassword);
-		user.setRole("Executive");
+		user.setRole("EXECUTIVE");
 		user=userService.insert(user);
 		executive.setUser(user);
 		return executiveService.insert(executive);
