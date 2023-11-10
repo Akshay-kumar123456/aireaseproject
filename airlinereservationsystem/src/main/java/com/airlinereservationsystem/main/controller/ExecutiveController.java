@@ -20,6 +20,17 @@ public class ExecutiveController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	/*
+	 localhost:8081/executive/add
+	 {
+       "name":" ",
+       "email":" ",
+       "user":{
+               "username":" ",
+                "password":" "
+            }
+}
+	 */
 	@PostMapping("/executive/add")
 	public Executive addExecucutive(@RequestBody Executive executive) {
 		 

@@ -34,7 +34,7 @@ public class CustomerService {
 		return customerRepository.findAll(pageable).getContent();
 	}
     
-	public void deleteVendor(Customer customer) {
+	public void deleteCustomer(Customer customer) {
 		customerRepository.delete(customer);
 		
 	}

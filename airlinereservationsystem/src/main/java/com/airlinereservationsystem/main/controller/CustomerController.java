@@ -32,6 +32,20 @@ public class CustomerController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	
+	/*  localhost:8081/customer/signup
+	  {
+       "name" :" ",
+       "age": ,
+       "gender":"",
+       "email":"",
+       "phone":"",
+       "user":{
+               "username":"",
+               "password":""  
+               }
+
+       }*/
 	@PostMapping("/customer/signup")
 	public Customer signUp(@RequestBody Customer customer) {
 
@@ -45,6 +59,8 @@ public class CustomerController {
 		return customerService.insert(customer);
 	}
 
+	
+	//localhost:8081/customer/getone/8
 	@GetMapping("/customer/getone/{id}")
 	public ResponseEntity<?> getCustomer(@PathVariable("id") int id) {
 
@@ -57,6 +73,8 @@ public class CustomerController {
 
 	}
 
+	
+	//localhost:8081/customer/getall?page=1&size=1
 	@GetMapping("/customer/getall")
 	public List<Customer> getAllCustomer(
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
@@ -67,14 +85,16 @@ public class CustomerController {
 
 	}
 
+	
+	//localhost:8081/customer/delete/8
 	@DeleteMapping("/customer/delete/{id}")
-	public ResponseEntity<?> deleteVendor(@PathVariable("id") int id) {
+	public ResponseEntity<?> deleteCustomer(@PathVariable("id") int id) {
 
 		try {
 
 			Customer customer = customerService.getCustomer(id);
 
-			customerService.deleteVendor(customer);
+			customerService.deleteCustomer(customer);
 			return ResponseEntity.ok().body("vendor deleted successfully");
 
 		} catch (InvalidIDException e) {
@@ -82,8 +102,17 @@ public class CustomerController {
 		}
 	}
 
+	
+	/*localhost:8081/customer/update/6
+	  {
+      "name" :" ",
+      "age":,
+      "gender":" ",
+      "email":" ",
+       "phone":" ",
+	 */
 	@PutMapping("/customer/update/{id}")
-	public ResponseEntity<?> updateVendor(@PathVariable("id") int id, @RequestBody CustomerDto newCustomer) {
+	public ResponseEntity<?> updateCustomer(@PathVariable("id") int id, @RequestBody CustomerDto newCustomer) {
 		try {
 			Customer oldCustomer = customerService.getCustomer(id);
 			if (newCustomer.getName() != null)
@@ -92,10 +121,10 @@ public class CustomerController {
 				oldCustomer.setAge(newCustomer.getAge());
 			if (newCustomer.getEmail() != null)
 				oldCustomer.setEmail(newCustomer.getEmail());
-			if(newCustomer.getGender()!= null)
+			if (newCustomer.getGender() != null)
 				oldCustomer.setGender(newCustomer.getGender());
-			if(newCustomer.getPhone()!= null)
-		        oldCustomer.setPhone(newCustomer.getPhone());
+			if (newCustomer.getPhone() != null)
+				oldCustomer.setPhone(newCustomer.getPhone());
 			oldCustomer = customerService.insert(oldCustomer);
 			return ResponseEntity.ok().body(oldCustomer);
 
