@@ -30,7 +30,7 @@ private AirlineRepository airlineRepository;
 	public  List<Airline> getAll(Pageable pageable) {
 		return airlineRepository.findAll(pageable).getContent();
 	}
-	public void deleteVendor(Airline airline) {
+	public void deleteAirline(Airline airline) {
 		airlineRepository.delete(airline);
 	}
 }

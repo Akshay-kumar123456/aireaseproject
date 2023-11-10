@@ -68,22 +68,22 @@ public class AirlineController {
 			return airlineService.getAll(pageable);
 		}
 		@DeleteMapping("/airline/delete/{id}")
-		public ResponseEntity<?> deleteVendor(@PathVariable("id") int id) {
+		public ResponseEntity<?> deleteAirline(@PathVariable("id") int id) {
 
 			try {
 				Airline airline = airlineService.getAirline(id);
-				airlineService.deleteVendor(airline);
-				return ResponseEntity.ok().body("vendor deleted successfully");
+				airlineService.deleteAirline(airline);
+				return ResponseEntity.ok().body("Airline deleted successfully");
 			} catch (InvalidIDException e) {
 				return ResponseEntity.badRequest().body(e.getMessage());
 			}
 			}
 		@PutMapping("/airline/update/{id}")
-		public ResponseEntity<?> updateVendor(@PathVariable("id") int id, @RequestBody AirlineDto newAirline) {
+		public ResponseEntity<?> updateAirline(@PathVariable("id") int id, @RequestBody AirlineDto newAirline) {
 
 			try {
 				Airline oldAirline = airlineService.getAirline(id);
-				if (newAirline.getName() != null)
+				if (newAirline.getName()!= null)
 					oldAirline.setName(newAirline.getName());
 				if(newAirline.getCode()!= null)
 			        oldAirline.setCode(newAirline.getCode());
