@@ -2,12 +2,15 @@ package com.airlinereservationsystem.main.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.airlinereservationsystem.main.exception.InvalidIDException;
 import com.airlinereservationsystem.main.model.Flight;
+import com.airlinereservationsystem.main.repository.AirlineRepository;
 import com.airlinereservationsystem.main.repository.FlightRepository;
 @Service
 public class FlightService {
@@ -40,6 +43,19 @@ public class FlightService {
 		return flightRepository.getBydepartureDate(date);
 	}
 
+	public Flight getById(int fid) throws InvalidIDException {
+		Optional<Flight> optional =flightRepository.findById(fid);
+		if(!optional.isPresent())
+			throw new InvalidIDException("flight id invalid");
+		return optional.get();
+	}
+
+	public void deleteFlight(int fid) {
+		flightRepository.deleteById(fid);
+		
+	}
+
+	                                                                            
 	
 	
 }
