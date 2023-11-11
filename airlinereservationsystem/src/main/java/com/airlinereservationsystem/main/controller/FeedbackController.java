@@ -24,38 +24,33 @@ public class FeedbackController {
 	private FeedbackService feedbackService;
 	@Autowired
 	private FlightService flightService;
-	
 
-	
-@PostMapping("/feedback/{cid}/{fid}")
-public ResponseEntity<?> WriteFeedback(@PathVariable("cid") int cid, @PathVariable("fid") int fid, @RequestBody Feedback  feedback) {
-	
-	try {
-		Customer customer = customerService.getCustomer(cid);
-		Flight flight = flightService.getById(fid);
-		
-		
-		feedback.setCustomer(customer);
-		feedback.setFlight(flight);
-		feedbackService.insert(feedback);
-		return ResponseEntity.ok().body(feedback);
-		
-		
-	}catch (InvalidIDException e) {
-		return ResponseEntity.badRequest().body(e.getMessage());
+	@PostMapping("/feedback/{cid}/{fid}")
+	public ResponseEntity<?> WriteFeedback(@PathVariable("cid") int cid, @PathVariable("fid") int fid,
+			@RequestBody Feedback feedback) {
+
+		try {
+			Customer customer = customerService.getCustomer(cid);
+			Flight flight = flightService.getById(fid);
+
+			feedback.setCustomer(customer);
+			feedback.setFlight(flight);
+			feedbackService.insert(feedback);
+			return ResponseEntity.ok().body(feedback);
+
+		} catch (InvalidIDException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
-}
-	
+
 	@GetMapping("/feedback/getone/{id}")
-	public ResponseEntity<?> getFeedback(@PathVariable("id")int id){
+	public ResponseEntity<?> getFeedback(@PathVariable("id") int id) {
 		try {
 			Feedback feedback = feedbackService.getById(id);
-			return  ResponseEntity.ok().body(feedback);
-		}
-		catch (InvalidIDException e) {
+			return ResponseEntity.ok().body(feedback);
+		} catch (InvalidIDException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
-		
-	
-}
-}
+		}
+	}
+
 }
