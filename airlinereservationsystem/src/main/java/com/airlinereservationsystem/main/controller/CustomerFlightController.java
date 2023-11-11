@@ -1,5 +1,7 @@
 package com.airlinereservationsystem.main.controller;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +26,14 @@ public class CustomerFlightController {
 
 	@Autowired
 	private CustomerFlightService customerFlightService;
+	
+	
+	
+	/*localhost:8081/flight/book/20/17
+	{
+    "seatNumber":"S35"
+    } 
+	 */
 
 	@PostMapping("/flight/book/{cid}/{fid}")
 	public ResponseEntity<?> bookTicket(@PathVariable("cid") int cid, @PathVariable("fid") int fid,
@@ -34,7 +44,8 @@ public class CustomerFlightController {
 			Flight flight = flightService.getById(fid);
 			customerFlight.setCustomer(customer);
 			customerFlight.setFlight(flight);	
-			
+			customerFlight.setDate( LocalDate.now());
+			customerFlight= customerFlightService.insert(customerFlight);
 			return ResponseEntity.ok().body(customerFlight);
 
 		} catch (InvalidIDException e) {
