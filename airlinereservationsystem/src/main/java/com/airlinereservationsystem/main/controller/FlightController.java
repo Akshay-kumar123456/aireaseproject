@@ -86,14 +86,14 @@ public class FlightController {
 	}
 
 	// localhost:8081/flight/2023-12-01
-	@GetMapping("/flight/{date}")//find flights by date
+	@GetMapping("/flight/{date}") // find flights by date
 	public List<Flight> getByDate(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
 
 		return flightService.getByDate(date);
 
 	}
-   
-	//localhost:8081/flight/16
+
+	// localhost:8081/flight/16
 	@DeleteMapping("/flight/{fid}")
 	public ResponseEntity<?> deleteflight(@PathVariable("fid") int fid) {
 		try {
@@ -105,17 +105,39 @@ public class FlightController {
 		}
 
 	}
+
 	
 	
-	@PutMapping("/flight/update")
-	public void updateFlight() {
-		
+	/*localhost:8081/flight/update/18
+	{
+    "price":1500
+    }
+	 */
+	@PutMapping("/flight/update/{id}")
+	public ResponseEntity<?> updateFlight(@PathVariable("id") int id, @RequestBody Flight flight) {
+	    try {
+	        Flight flight1 = flightService.getById(id);
+	        if (flight.getAvailableSeats() != 0)
+	            flight1.setAvailableSeats(flight.getAvailableSeats());
+	        if (flight.getCode() != null)
+	            flight1.setCode(flight.getCode());
+	        if (flight.getDepartureTime() != null)
+	            flight1.setDepartureTime(flight.getDepartureTime());
+	        if (flight.getDepartureDate() != null)
+	            flight1.setDepartureDate(flight.getDepartureDate());
+	        if (flight.getArrivalDate() != null)
+	            flight1.setArrivalDate(flight.getArrivalDate());
+	        if (flight.getPrice() != 0) {
+	            flight1.setPrice(flight.getPrice());
+	        }
+	        
+	        // Save the updated flight to the service
+	        flight1 = flightService.insert(flight1);
+	        
+	        return ResponseEntity.ok().body(flight1);
+	    } catch (InvalidIDException e) {
+	        return ResponseEntity.badRequest().body(e.getMessage());
+	    }
 	}
-	
-	
-	
-	
-	
-	
 
 }
