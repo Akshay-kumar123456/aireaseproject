@@ -1,5 +1,6 @@
 package com.airlinereservationsystem.main.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.airlinereservationsystem.main.dto.FeedbackDto;
+
 import com.airlinereservationsystem.main.exception.InvalidIDException;
 import com.airlinereservationsystem.main.model.Customer;
 import com.airlinereservationsystem.main.model.Feedback;
@@ -33,6 +34,14 @@ public class FeedbackController {
 	@Autowired
 	private FlightService flightService;
 
+	
+	/*
+	 localhost:8081/feedback/20/18
+	 {
+   "rating":4.5,
+   "text":"a wonderful journey"
+      }
+	 */
 	@PostMapping("/feedback/{cid}/{fid}")
 	public ResponseEntity<?> WriteFeedback(@PathVariable("cid") int cid, @PathVariable("fid") int fid,
 			@RequestBody Feedback feedback) {
@@ -43,6 +52,7 @@ public class FeedbackController {
 
 			feedback.setCustomer(customer);
 			feedback.setFlight(flight);
+			feedback.setDate(LocalDate.now());
 			feedbackService.insert(feedback);
 			return ResponseEntity.ok().body(feedback);
 
@@ -50,7 +60,10 @@ public class FeedbackController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-
+	
+	
+	
+      //localhost:8081/feedback/getone/23
 	@GetMapping("/feedback/getone/{id}")
 	public ResponseEntity<?> getFeedback(@PathVariable("id") int id) {
 		try {
@@ -60,17 +73,22 @@ public class FeedbackController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-
+    
+	
+	//localhost:8081/feedback/getall
 	@GetMapping("/feedback/getall")
 	public List<Feedback> getAllFeedback(
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(value = "size", required = false, defaultValue = "10000000") Integer size) {
 
 		Pageable pageable = PageRequest.of(page, size); // null null
+		//Pageable pageable = PageRequest.of(page, size, sort)
 		return feedbackService.getAll(pageable);
 
 	}
-
+    
+	
+	//localhost:8081/feedback/delete/23
 	@DeleteMapping("/feedback/delete/{id}")
 	public ResponseEntity<?> deleteCustomer(@PathVariable("id") int id) {
 
@@ -86,10 +104,12 @@ public class FeedbackController {
 		}
 	}
 
+	
+	//localhost:8081/feedback/update/23
 	@PutMapping("/feedback/update/{id}")
-	public ResponseEntity<?> updateFeedback(@PathVariable("id") int id, @RequestBody FeedbackDto newFeedback) {
+	public ResponseEntity<?> updateFeedback(@PathVariable("id") int id, @RequestBody Feedback newFeedback) {
 		try {
-			Feedback oldFeedback = feedbackService.getFeedback(id);
+			Feedback oldFeedback = feedbackService.getById(id);
 			if (newFeedback.getText() != null)
 				oldFeedback.setText(newFeedback.getText());
 			if (newFeedback.getRating() != 0)

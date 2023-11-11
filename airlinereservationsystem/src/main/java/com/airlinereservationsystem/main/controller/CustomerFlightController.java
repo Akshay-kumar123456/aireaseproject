@@ -57,8 +57,6 @@ public class CustomerFlightController {
 
 	}
 	
-	
-	
 	//localhost:8081/flight/bookings/20
 	@GetMapping("/flight/bookings/{cid}")//get your bookings
 	public ResponseEntity<?> getYourBookings(@PathVariable("cid")int cid) {
@@ -74,5 +72,9 @@ public class CustomerFlightController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}	
 		}
+	
+	
+	
+	
 
 }
