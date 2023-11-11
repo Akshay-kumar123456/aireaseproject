@@ -1,9 +1,11 @@
 package com.airlinereservationsystem.main.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,5 +56,23 @@ public class CustomerFlightController {
 		
 
 	}
+	
+	
+	
+	//localhost:8081/flight/bookings/20
+	@GetMapping("/flight/bookings/{cid}")//get your bookings
+	public ResponseEntity<?> getYourBookings(@PathVariable("cid")int cid) {
+		
+		
+		try {
+			Customer customer = customerService.getCustomer(cid);
+			List<CustomerFlight> list = customerFlightService.getMyBookings(cid);
+			return ResponseEntity.ok().body(list);
+			
+			
+		} catch (InvalidIDException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}	
+		}
 
 }
