@@ -47,5 +47,23 @@ private FeedbackRepository feedbackRepository ;
 		
 	}
 
+	public List<Feedback> getAll(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return feedbackRepository.findAll();
+	}
+
+	
+	public void deleteFeedback(Feedback feedback) {
+		feedbackRepository.delete(feedback);
+		
+	}
+
+	public Feedback getFeedback(int id) {
+		
+		return feedbackRepository.getById(id);
+	}
+
+
+	
 }
 	
