@@ -1,5 +1,7 @@
 package com.airlinereservationsystem.main.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,10 @@ private CustomerFlightRepository customerFlightRepository;
 	public CustomerFlight insert(CustomerFlight customerFlight) {
 		return customerFlightRepository.save(customerFlight);
 		
+	}
+	public List<CustomerFlight> getMyBookings(int cid) {
+		
+		return customerFlightRepository.getMyBookings(cid) ;
 	}
 
 }
