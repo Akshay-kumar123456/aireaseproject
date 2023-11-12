@@ -2,23 +2,23 @@ package com.airlinereservationsystem.main.dto;
 
 import javax.persistence.OneToOne;
 
+import com.airlinereservationsystem.main.model.Customer;
 import com.airlinereservationsystem.main.model.User;
 
-public class CustomerDto {
+public class PassengerDto {
 
 	private String name;
 	private int age;
 	private String gender;
-	private String email;
-	private String phone;
+	private String seatNumber;
+	
 
-	@OneToOne
-	private User user;
+	
 
 	@Override
 	public String toString() {
-		return "CustomerDto [name=" + name + ", age=" + age + ", gender=" + gender + ", email=" + email + ", phone="
-				+ phone + ", user=" + user + "]";
+		return "PassengerDto [name=" + name + ", age=" + age + ", gender=" + gender + ", seatNumber=" + seatNumber
+				+ "]";
 	}
 
 	public String getName() {
@@ -45,29 +45,15 @@ public class CustomerDto {
 		this.gender = gender;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getSeatNumber() {
+		return seatNumber;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setSeatNumber(String seatNumber) {
+		this.seatNumber = seatNumber;
 	}
 
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
+	
 	
 	
 }
