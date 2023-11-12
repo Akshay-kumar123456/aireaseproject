@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.airlinereservationsystem.main.dto.AirlineDto;
-import com.airlinereservationsystem.main.dto.CustomerDto;
+import com.airlinereservationsystem.main.dto.PassengerDto;
 import com.airlinereservationsystem.main.exception.InvalidIDException;
 import com.airlinereservationsystem.main.model.Airline;
 import com.airlinereservationsystem.main.model.Customer;

@@ -62,4 +62,9 @@ public class FlightService {
 
 	}
 
+	public double getfare(int fid) {
+		
+		return flightRepository.getfare(fid);
+	}
+
 }
