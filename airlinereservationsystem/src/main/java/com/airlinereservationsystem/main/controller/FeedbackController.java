@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.airlinereservationsystem.main.dto.FeedbackDto;
+
 import com.airlinereservationsystem.main.exception.InvalidIDException;
 import com.airlinereservationsystem.main.model.Customer;
 import com.airlinereservationsystem.main.model.Feedback;
@@ -87,7 +87,7 @@ public class FeedbackController {
 	}
 
 	@PutMapping("/feedback/update/{id}")
-	public ResponseEntity<?> updateFeedback(@PathVariable("id") int id, @RequestBody FeedbackDto newFeedback) {
+	public ResponseEntity<?> updateFeedback(@PathVariable("id") int id, @RequestBody Feedback newFeedback) {
 		try {
 			Feedback oldFeedback = feedbackService.getFeedback(id);
 			if (newFeedback.getText() != null)
