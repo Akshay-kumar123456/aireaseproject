@@ -94,7 +94,7 @@ public class FlightController {
 	}
 
 	// localhost:8081/flight/16
-	@DeleteMapping("/flight/{fid}")
+	@DeleteMapping("/flight/{fid}")//delete flight by flight id
 	public ResponseEntity<?> deleteflight(@PathVariable("fid") int fid) {
 		try {
 			Flight flight = flightService.getById(fid);
@@ -113,7 +113,7 @@ public class FlightController {
     "price":1500
     }
 	 */
-	@PutMapping("/flight/update/{id}")
+	@PutMapping("/flight/update/{id}") //update flight
 	public ResponseEntity<?> updateFlight(@PathVariable("id") int id, @RequestBody Flight flight) {
 	    try {
 	        Flight flight1 = flightService.getById(id);
@@ -139,5 +139,21 @@ public class FlightController {
 	        return ResponseEntity.badRequest().body(e.getMessage());
 	    }
 	}
+	
+	
+	
+	@GetMapping("/flight/getreq")
+	public void getReq(@RequestParam( value="airline",required = false)String Airline,@RequestParam(value = "timings",required = false)String Timings) {
+		//List<Flight> list = flightService.getReq(Airline,Timings);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

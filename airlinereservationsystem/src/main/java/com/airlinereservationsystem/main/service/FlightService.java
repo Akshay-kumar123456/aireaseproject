@@ -67,4 +67,12 @@ public class FlightService {
 		return flightRepository.getfare(fid);
 	}
 
+	//public List<Flight> getReq(String Airline, String Timings) {
+		
+		//if(Timings)
+		
+		
+		//return flightRepository.findreq(Airline,Timings);
+	//}
+
 }
