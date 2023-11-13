@@ -105,7 +105,25 @@ public class FlightController {
 		}
 
 	}
-
+	
+	
+	@GetMapping("flight/getbyairline/{date}/{aid}")
+	public ResponseEntity<?> getflight(@PathVariable("aid")int aid,
+	@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
+		try {
+			Airline airline = airlineService.getAirline(aid);
+			
+			List<Flight> list = flightService.findBy(aid,date);
+			
+			if (list.isEmpty()) {
+				return ResponseEntity.ok().body("No flights are avalible");
+			}
+				return ResponseEntity.ok().body(list);
+		} catch (InvalidIDException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+			
+		}
+	}
 	
 	
 	/*localhost:8081/flight/update/18
