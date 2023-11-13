@@ -2,7 +2,9 @@ package com.airlinereservationsystem.main.controller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +41,7 @@ public class CustomerFlightController {
 	@PostMapping("/flight/book/{cid}/{fid}")
 	public ResponseEntity<?> bookTicket(@PathVariable("cid") int cid, @PathVariable("fid") int fid,
 			@RequestBody CustomerFlight customerFlight) {
-
+                 
 		try {
 			Customer customer = customerService.getCustomer(cid);
 			Flight flight = flightService.getById(fid);
@@ -86,7 +88,7 @@ public class CustomerFlightController {
 			Flight flight = flightService.getById(fid);
 
 			List<CustomerFlight> bookedTickets = new ArrayList<>();
-
+            double totalPrice=0;
 			for (PassengerDto passengerDto : passengerDtoList) {
 				CustomerFlight customerFlight = new CustomerFlight();
 				customerFlight.setCustomer(customer);
@@ -98,12 +100,16 @@ public class CustomerFlightController {
 				customerFlight.setGender(passengerDto.getGender());
 				customerFlight.setPrice(customerFlightService.price(fid,passengerDto.getAge()));
 				customerFlight.setSeatNumber(passengerDto.getSeatNumber());
-
+                totalPrice = totalPrice+(customerFlight.getPrice());
 				// Add the processed ticket to the list
 				bookedTickets.add(customerFlightService.insert(customerFlight));
 			}
 
-			return ResponseEntity.ok().body(bookedTickets);
+			Map<String, Object> response = new HashMap<>();
+	        response.put("bookedTickets", bookedTickets);
+	        response.put("totalPrice", totalPrice);
+
+	        return ResponseEntity.ok().body(response);
 
 		} catch (InvalidIDException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
