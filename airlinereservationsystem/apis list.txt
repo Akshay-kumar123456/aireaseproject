@@ -1,0 +1,26 @@
+API'S BASED ON PAGES :
+----------------------
+
+1.Home  : no api's needed 
+2.signup : POST API TO ADD CUSTOMER
+3.login:GET API to authnticate details
+4.About us : 
+    i. POST API to add feedback 
+   ii. GET API to see the previous feedback of other customers.
+5.Search flights: GET API to get flights list.
+6.Booking: POST API to book flights
+7.airline dashboard:
+    i. GET API to get total no of flights, income, passengers.	
+   ii. GET API to get list of flights from that airline. 
+  iii. PUT API to update flight details.
+   iv. DELETE API to remove flight.
+    v. POST API to add new flights.
+   vi. GET API to get passenger list of each flight.
+8.Executive dashboard:
+   i. GET API to see list of airlines.
+  ii. POST API to add new airlines.
+ iii. GET API to get no of users.
+  iv. GET API to know the problems faced by users while using website.
+
+
+

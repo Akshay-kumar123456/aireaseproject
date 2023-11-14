@@ -7,11 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.airlinereservationsystem.main.dto.PassengerDto;
 import com.airlinereservationsystem.main.exception.InvalidIDException;
@@ -116,4 +119,20 @@ public class CustomerFlightController {
 		}
 
 	}
+	
+	
+	@GetMapping("/bookings/{cid}")
+	public List<Customer> getAllCustomer(
+			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+			@RequestParam(value = "size", required = false, defaultValue = "10000000") Integer size) {
+
+		Pageable pageable = PageRequest.of(page, size); // null null
+		return customerService.getAll(pageable);
+
+	}
+	
+	
+	
+	
+	 
 }
