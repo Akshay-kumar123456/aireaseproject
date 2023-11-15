@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -81,6 +82,20 @@ public class CustomerFlightController {
 		try {
 			Flight flight = flightService.getById(fid);
 			List<CustomerFlight> list = customerFlightService.getpassenger(fid);
+			return ResponseEntity.ok().body(list);
+
+		} catch (InvalidIDException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+	
+	//localhost:8081/flight/passengers/114/2023-11-13
+	@GetMapping("/flight/passengers/{fid}/{date}") // get your bookings
+	public ResponseEntity<?> getpassengers(@PathVariable("fid") int fid,@PathVariable("date")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date ) {
+
+		try {
+			Flight flight = flightService.getById(fid);
+			List<CustomerFlight> list = customerFlightService.getpassengerslist(fid,date);
 			return ResponseEntity.ok().body(list);
 
 		} catch (InvalidIDException e) {

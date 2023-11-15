@@ -164,11 +164,39 @@ public class FlightController {
 	public void getReq(@RequestParam( value="airline",required = false)String Airline,@RequestParam(value = "timings",required = false)String Timings) {
 		//List<Flight> list = flightService.getReq(Airline,Timings);
 	}
+	/*
+	 {
+  "code": "I5110",
+  "departureTime": "16:45",
+  "departureDate": "2023-12-05",
+  "arrivalDate": "2023-12-06",
+  "availableSeats": 40,
+  "price": 900
+}
+
+	 */
 	
 	
-	
-	
-	
+	//localhost:8081/flight/add/91/Mumbai/Delhi
+	@PostMapping("/flight/add/{aid}/{source}/{destination}")
+	public ResponseEntity<?> onboardFlight(@PathVariable("aid")int aid,@PathVariable("source")String source,@PathVariable("destination")String destination,@RequestBody Flight flight) {
+		
+	   try {
+		Route route = routeService.getidbySD(source,destination);
+		Airline airline = airlineService.getAirline(aid);
+		flight.setAirline(airline);
+		flight.setRoute(route);
+		flight= flightService.insert(flight);
+		return ResponseEntity.ok().body(flight);
+	} catch (InvalidIDException e) {
+		return ResponseEntity.badRequest().body(e.getMessage());
+	}
+		
+		
+		
+		
+		
+	}
 	
 	
 	

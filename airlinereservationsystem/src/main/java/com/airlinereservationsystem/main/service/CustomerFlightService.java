@@ -1,5 +1,6 @@
 package com.airlinereservationsystem.main.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,10 +52,14 @@ public class CustomerFlightService {
 		
 	}
 
+	public List<CustomerFlight> getpassengerslist(int fid,LocalDate date) {
+		return  customerFlightRepository.getByFlightIdd(fid,date);
+	}
+
+	
 	public List<CustomerFlight> getpassenger(int fid) {
 		return  customerFlightRepository.getByFlightId(fid);
 	}
-
 	
 	}
 

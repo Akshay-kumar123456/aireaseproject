@@ -44,4 +44,16 @@ public class RouteService {
 
 
 	
+
+
+	public Route getidbySD(String source, String destination) throws InvalidIDException {
+	Route route =	routeRepository.getRoute(source,destination);
+	    if(route.getId()==0)
+	    	throw new InvalidIDException("no routes avaliable");
+	    	
+		return route;
+	}
+
+
+	
 }
