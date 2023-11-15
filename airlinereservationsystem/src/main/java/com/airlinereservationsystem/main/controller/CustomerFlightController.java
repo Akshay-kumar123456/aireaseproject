@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,6 +68,19 @@ public class CustomerFlightController {
 		try {
 			Customer customer = customerService.getCustomer(cid);
 			List<CustomerFlight> list = customerFlightService.getMyBookings(cid);
+			return ResponseEntity.ok().body(list);
+
+		} catch (InvalidIDException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+    //localhost:8081/flight/passengers/114
+	@GetMapping("/flight/passengers/{fid}") // get your bookings
+	public ResponseEntity<?> getpassengers(@PathVariable("fid") int fid) {
+
+		try {
+			Flight flight = flightService.getById(fid);
+			List<CustomerFlight> list = customerFlightService.getpassenger(fid);
 			return ResponseEntity.ok().body(list);
 
 		} catch (InvalidIDException e) {
@@ -131,8 +145,20 @@ public class CustomerFlightController {
 
 	}
 	
-	
-	
+	//localhost:8081/booking/delete/129
+	@DeleteMapping("/booking/delete/{bid}")
+	public ResponseEntity<?> deleteBooking(@PathVariable("bid") int id) {
+		try {
+			CustomerFlight customerFlight = customerFlightService.getBooking(id);
+
+			customerFlightService.deleteCustomer(customerFlight);
+			return ResponseEntity.ok().body("Booking deleted successfully");
+
+		} catch (InvalidIDException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+
 	
 	 
 }

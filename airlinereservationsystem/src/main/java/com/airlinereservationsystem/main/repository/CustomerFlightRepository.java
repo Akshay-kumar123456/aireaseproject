@@ -13,4 +13,7 @@ public interface CustomerFlightRepository extends JpaRepository<CustomerFlight, 
 	@Query("select cf from CustomerFlight cf where cf.customer.id =?1")
 	List<CustomerFlight> getMyBookings(int cid);
 
+	@Query("select cf from CustomerFlight cf where cf.flight.id =?1")
+	List<CustomerFlight> getByFlightId(int fid);
+
 }
