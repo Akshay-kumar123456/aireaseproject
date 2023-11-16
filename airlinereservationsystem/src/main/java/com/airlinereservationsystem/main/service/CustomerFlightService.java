@@ -2,10 +2,13 @@ package com.airlinereservationsystem.main.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.airlinereservationsystem.main.exception.InvalidIDException;
+import com.airlinereservationsystem.main.model.Customer;
 import com.airlinereservationsystem.main.model.CustomerFlight;
 import com.airlinereservationsystem.main.repository.CustomerFlightRepository;
 
@@ -36,9 +39,37 @@ public class CustomerFlightService {
 		return (fare*0.2);
 	}
 
+<<<<<<< HEAD
 	public List<CustomerFlight> findBy(int fid, LocalDate date) {
 		
 		return customerFlightRepository.findAll();
 	}
 
 }
+=======
+	public CustomerFlight getBooking(int id) throws InvalidIDException {
+		Optional<CustomerFlight> optional = customerFlightRepository.findById(id);
+		if (!optional.isPresent()) {
+			throw new InvalidIDException("BOOKING ID invalid");
+		}
+		return optional.get();
+	}
+
+	public void deleteCustomer(CustomerFlight customerFlight) {
+		 customerFlightRepository.delete(customerFlight);
+		
+	}
+
+	public List<CustomerFlight> getpassengerslist(int fid,LocalDate date) {
+		return  customerFlightRepository.getByFlightIdd(fid,date);
+	}
+
+	
+	public List<CustomerFlight> getpassenger(int fid) {
+		return  customerFlightRepository.getByFlightId(fid);
+	}
+	
+	}
+
+
+>>>>>>> 19ae6ceb11c191f15e73b43ea9eb291cd46ddfc0
