@@ -67,9 +67,13 @@ public class FlightService {
 		return flightRepository.getfare(fid);
 	}
 
-	public List<Flight> findBy(int aid, LocalDate date) {
-		
-		return flightRepository.findBy(aid,date);
+	
+	
+	public List<Flight> findBy(int fid, LocalDate date) {
+		// TODO Auto-generated method stub
+		return flightRepository.findBy(fid,date);
 	}
+
+	
 
 }

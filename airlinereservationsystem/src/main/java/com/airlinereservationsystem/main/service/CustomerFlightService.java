@@ -1,5 +1,6 @@
 package com.airlinereservationsystem.main.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,11 @@ public class CustomerFlightService {
 		if (age>12)
 			return (fare*0.5);
 		return (fare*0.2);
+	}
+
+	public List<CustomerFlight> findBy(int fid, LocalDate date) {
+		
+		return customerFlightRepository.findAll();
 	}
 
 }

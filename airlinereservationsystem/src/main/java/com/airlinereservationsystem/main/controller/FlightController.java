@@ -116,7 +116,7 @@ public class FlightController {
 			List<Flight> list = flightService.findBy(aid,date);
 			
 			if (list.isEmpty()) {
-				return ResponseEntity.ok().body("No flights are avalible");
+				return ResponseEntity.ok().body("");
 			}
 				return ResponseEntity.ok().body(list);
 		} catch (InvalidIDException e) {

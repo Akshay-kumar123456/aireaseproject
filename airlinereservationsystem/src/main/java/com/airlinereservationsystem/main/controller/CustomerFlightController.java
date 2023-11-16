@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.airlinereservationsystem.main.dto.PassengerDto;
 import com.airlinereservationsystem.main.exception.InvalidIDException;
+import com.airlinereservationsystem.main.model.Airline;
 import com.airlinereservationsystem.main.model.Customer;
 import com.airlinereservationsystem.main.model.CustomerFlight;
 import com.airlinereservationsystem.main.model.Flight;
@@ -70,6 +72,22 @@ public class CustomerFlightController {
 	}
 
 	
+	@GetMapping("/flight/{fid}/{date}") 
+	public ResponseEntity<?> findBy(@PathVariable("fid") int fid,@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
+		
+		try {
+			Flight flight= flightService.getById(fid);
+			List<CustomerFlight> list = customerFlightService.findBy(fid, date);
+			return ResponseEntity.ok().body(list);
+
+
+		} catch (InvalidIDException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+
+		
+		
 	
 	
 	
