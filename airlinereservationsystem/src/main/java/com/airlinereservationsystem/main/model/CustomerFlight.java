@@ -3,11 +3,17 @@ package com.airlinereservationsystem.main.model;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.airlinereservationsystem.main.enums.Seatclass;
+
+
 
 
 
@@ -22,6 +28,8 @@ public class CustomerFlight {
 	private String seatNumber;
 	private LocalDate date;
 	private double price;
+	@Enumerated(EnumType.STRING)
+	private Seatclass seatclass;
 	@ManyToOne
 	private Flight flight;
 	@ManyToOne
@@ -69,6 +77,12 @@ public class CustomerFlight {
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
+	public Seatclass getSeatclass() {
+		return seatclass;
+	}
+	public void setSeatclass(Seatclass seatclass) {
+		this.seatclass = seatclass;
+	}
 	public Flight getFlight() {
 		return flight;
 	}
@@ -84,8 +98,8 @@ public class CustomerFlight {
 	@Override
 	public String toString() {
 		return "CustomerFlight [id=" + id + ", name=" + name + ", age=" + age + ", gender=" + gender + ", seatNumber="
-				+ seatNumber + ", date=" + date + ", price=" + price + ", flight=" + flight + ", customer=" + customer
-				+ "]";
+				+ seatNumber + ", date=" + date + ", price=" + price + ", seatclass=" + seatclass + ", flight=" + flight
+				+ ", customer=" + customer + "]";
 	}
 	
 	

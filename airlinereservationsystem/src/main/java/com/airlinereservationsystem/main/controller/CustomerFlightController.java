@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+
 import com.airlinereservationsystem.main.dto.PassengerDto;
 import com.airlinereservationsystem.main.exception.InvalidIDException;
 import com.airlinereservationsystem.main.model.Customer;
@@ -39,27 +41,42 @@ public class CustomerFlightController {
 
 	private CustomerFlight customerFlight;
 
-	/*
-	 * localhost:8081/flight/book/20/17 { "seatNumber":"S35" }
-	 */
-
-	@PostMapping("/flight/book/{cid}/{fid}")
-	public ResponseEntity<?> bookTicket(@PathVariable("cid") int cid, @PathVariable("fid") int fid,
-			@RequestBody CustomerFlight customerFlight) {
-                 
+	@PostMapping("/book/{cid}/{fid}")
+	public ResponseEntity<?> booktickets(@PathVariable("fid") int fid, @PathVariable("cid") int cid,
+			@RequestBody List<PassengerDto> passengerDtoList) {
 		try {
+
 			Customer customer = customerService.getCustomer(cid);
 			Flight flight = flightService.getById(fid);
-			customerFlight.setCustomer(customer);
-			customerFlight.setFlight(flight);
-			customerFlight.setDate(LocalDate.now());
-			customerFlight = customerFlightService.insert(customerFlight);
-			return ResponseEntity.ok().body(customerFlight);
+			List<CustomerFlight> bookedTickets = new ArrayList<>();
+			double totalPrice = 0;
+			for (PassengerDto passengerDto : passengerDtoList) {
+				CustomerFlight customerFlight = new CustomerFlight();
+				customerFlight.setCustomer(customer);
+				customerFlight.setFlight(flight);
+				customerFlight.setDate(LocalDate.now());
+				// Set passenger-specific information from the DTO
+				customerFlight.setName(passengerDto.getName());
+				customerFlight.setAge(passengerDto.getAge());
+				customerFlight.setGender(passengerDto.getGender());
+				customerFlight.setSeatclass(passengerDto.getSeatclass());
+				customerFlight
+						.setPrice(customerFlightService.price(fid, passengerDto.getAge(),passengerDto.getSeatclass()));
+				customerFlight.setSeatNumber(passengerDto.getSeatNumber());
+				totalPrice = totalPrice + (customerFlight.getPrice());
+				// Add the processed ticket to the list
+				bookedTickets.add(customerFlightService.insert(customerFlight));
+			}
+
+			Map<String, Object> response = new HashMap<>();
+			response.put("bookedTickets", bookedTickets);
+			response.put("totalPrice", totalPrice);
+
+			return ResponseEntity.ok().body(response);
 
 		} catch (InvalidIDException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
-
 	}
 
 	// localhost:8081/flight/bookings/20
@@ -107,47 +124,8 @@ public class CustomerFlightController {
 	
 	
 	
-	// localhost:8081/booking/family/20/17
-	/*
-	 * [ {"name": "John", "age": 30, "gender": "Male", "seatNumber": "A1"}, {"name":
-	 * "Jane", "age": 25, "gender": "Female", "seatNumber": "A2"} ]
-	 */
-	@PostMapping("/booking/family/{cid}/{fid}")//book tickets for family
-	public ResponseEntity<?> bookTickets(@PathVariable("cid") int cid, @PathVariable("fid") int fid,
-			@RequestBody List<PassengerDto> passengerDtoList) {
-		try {
-			Customer customer = customerService.getCustomer(cid);
-			Flight flight = flightService.getById(fid);
-
-			List<CustomerFlight> bookedTickets = new ArrayList<>();
-            double totalPrice=0;
-			for (PassengerDto passengerDto : passengerDtoList) {
-				CustomerFlight customerFlight = new CustomerFlight();
-				customerFlight.setCustomer(customer);
-				customerFlight.setFlight(flight);
-				customerFlight.setDate(LocalDate.now());
-				// Set passenger-specific information from the DTO
-				customerFlight.setName(passengerDto.getName());
-				customerFlight.setAge(passengerDto.getAge());
-				customerFlight.setGender(passengerDto.getGender());
-				customerFlight.setPrice(customerFlightService.price(fid,passengerDto.getAge()));
-				customerFlight.setSeatNumber(passengerDto.getSeatNumber());
-                totalPrice = totalPrice+(customerFlight.getPrice());
-				// Add the processed ticket to the list
-				bookedTickets.add(customerFlightService.insert(customerFlight));
-			}
-
-			Map<String, Object> response = new HashMap<>();
-	        response.put("bookedTickets", bookedTickets);
-	        response.put("totalPrice", totalPrice);
-
-	        return ResponseEntity.ok().body(response);
-
-		} catch (InvalidIDException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
-
-	}
+	
+	
 	
 	
 	@GetMapping("/bookings/{cid}")

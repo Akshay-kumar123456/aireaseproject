@@ -12,6 +12,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.airlinereservationsystem.main.enums.Role;
+
 @Entity
 public class User implements UserDetails {
 	private static final long serialVersionUID = 5940885837296114248L;
@@ -20,7 +22,14 @@ public class User implements UserDetails {
 	private int id;
 	private String password;
 	private String username;
-	private String role;
+	private Role role;
+
+	
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", password=" + password + ", username=" + username + ", role=" + role + "]";
+	}
 
 	public int getId() {
 		return id;
@@ -46,22 +55,21 @@ public class User implements UserDetails {
 		this.username = username;
 	}
 
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", password=" + password + ", username=" + username + ", role=" + role + "]";
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		SimpleGrantedAuthority sga = new SimpleGrantedAuthority(role);
+		SimpleGrantedAuthority sga = new SimpleGrantedAuthority(role.name());
 		Collection<GrantedAuthority> list = new ArrayList<>();
 		list.add(sga);
 		return list;

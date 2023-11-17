@@ -7,16 +7,18 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+import com.airlinereservationsystem.main.enums.Seatclass;
 import com.airlinereservationsystem.main.exception.InvalidIDException;
-import com.airlinereservationsystem.main.model.Customer;
 import com.airlinereservationsystem.main.model.CustomerFlight;
+import com.airlinereservationsystem.main.model.Flight;
 import com.airlinereservationsystem.main.repository.CustomerFlightRepository;
+import com.airlinereservationsystem.main.repository.FlightRepository;
 
 @Service
 public class CustomerFlightService {
-
 	@Autowired
-	private FlightService flightservice;
+	private FlightRepository flightRepository;
 	@Autowired
 	private CustomerFlightRepository customerFlightRepository;
 
@@ -30,13 +32,43 @@ public class CustomerFlightService {
 		return customerFlightRepository.getMyBookings(cid);
 	}
 
-	public double price(int fid, int age) {
-		double fare = flightservice.getfare(fid);
-		if (age>18)
-			return fare;
-		if (age>12)
-			return (fare*0.5);
-		return (fare*0.2);
+	public double price(int fid, int age, Seatclass seatclass) throws InvalidIDException {
+
+		Optional<Flight> optional = flightRepository.findById(fid);
+		if (!optional.isPresent())
+			throw new InvalidIDException("flight not exist");
+
+		if (seatclass.equals(Seatclass.BUSINESS_CLASS)) {
+
+			double price = optional.get().getBusinessClassPrice();
+			if (age >= 12)
+				return price;
+			else if (age < 12)
+				return price * 0.75;
+			else if (age < 2)
+				return price * 0.40;
+		} else if (seatclass.equals(Seatclass.FIRST_CLASS)) {
+
+			double price = optional.get().getFirstClassPrice();
+			if (age >= 12)
+				return price;
+			else if (age < 12)
+				return price * 0.75;
+			else if (age < 2)
+				return price * 0.40;
+		} else if (seatclass.equals(Seatclass.ECONOMY_CLASS)) {
+
+			double price = optional.get().getEconomyClassPrice();
+			if (age >= 12)
+				return price;
+			else if (age < 12)
+				return price * 0.75;
+			else if (age < 2)
+				return price * 0.40;
+		}
+
+		// You might want to handle the case where an invalid seat class is provided
+		throw new IllegalArgumentException("Invalid seat class");
 	}
 
 	public CustomerFlight getBooking(int id) throws InvalidIDException {
