@@ -1,39 +1,27 @@
-package com.airlinereservationsystem.main.model;
+package com.airlinereservationsystem.main.dto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
-@Entity
-public class Flight {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+public class FlightDto {
+	
+	
 	private String code;
 	private LocalTime departureTime;
 	private LocalDate departureDate;
 	private LocalDate arrivalDate;
-    private int availableSeats;
+    public int getAvailableSeats() {
+		return availableSeats;
+	}
+	public void setAvailableSeats(int availableSeats) {
+		this.availableSeats = availableSeats;
+	}
+	private int availableSeats;
     private double economyClassPrice;
     private double firstClassPrice;
     private double businessClassPrice;
- 
-
-	@ManyToOne
-	private Route route;
-	@ManyToOne
-	private Airline airline;
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+    private String source;
+    private String destination;
 	public String getCode() {
 		return code;
 	}
@@ -58,12 +46,7 @@ public class Flight {
 	public void setArrivalDate(LocalDate arrivalDate) {
 		this.arrivalDate = arrivalDate;
 	}
-	public int getAvailableSeats() {
-		return availableSeats;
-	}
-	public void setAvailableSeats(int availableSeats) {
-		this.availableSeats = availableSeats;
-	}
+	
 	public double getEconomyClassPrice() {
 		return economyClassPrice;
 	}
@@ -82,32 +65,26 @@ public class Flight {
 	public void setBusinessClassPrice(double businessClassPrice) {
 		this.businessClassPrice = businessClassPrice;
 	}
-	public Route getRoute() {
-		return route;
+	public String getSource() {
+		return source;
 	}
-	public void setRoute(Route route) {
-		this.route = route;
+	public void setSource(String source) {
+		this.source = source;
 	}
-	public Airline getAirline() {
-		return airline;
+	public String getDestination() {
+		return destination;
 	}
-	public void setAirline(Airline airline) {
-		this.airline = airline;
+	public void setDestination(String destination) {
+		this.destination = destination;
 	}
 	@Override
 	public String toString() {
-		return "Flight [id=" + id + ", code=" + code + ", departureTime=" + departureTime + ", departureDate="
-				+ departureDate + ", arrivalDate=" + arrivalDate + ", availableSeats=" + availableSeats
-				+ ", economyClassPrice=" + economyClassPrice + ", firstClassPrice=" + firstClassPrice
-				+ ", businessClassPrice=" + businessClassPrice + ", route=" + route + ", airline=" + airline + "]";
+		return "FlightDto [code=" + code + ", departureTime=" + departureTime + ", departureDate=" + departureDate
+				+ ", arrivalDate=" + arrivalDate + ", availableSeats=" + availableSeats + ", economyClassPrice="
+				+ economyClassPrice + ", firstClassPrice=" + firstClassPrice + ", businessClassPrice="
+				+ businessClassPrice + ", source=" + source + ", destination=" + destination + "]";
 	}
-	
-	
-	
-	
-     
-	
-	
-	
+    
+    
 
 }

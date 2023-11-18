@@ -20,8 +20,7 @@ public interface FlightRepository extends JpaRepository<Flight, Integer> {
 
 	List<Flight> getBydepartureDate(LocalDate date);
 
-    @Query("SELECT f.price FROM Flight f WHERE f.id = ?1")
-	double getfare(int fid);
+   
 
 
 	

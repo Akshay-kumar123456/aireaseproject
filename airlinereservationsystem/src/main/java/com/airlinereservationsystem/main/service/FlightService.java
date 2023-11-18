@@ -52,29 +52,17 @@ public class FlightService {
 		return optional.get();
 	}
 
-	public Flight deleteFlight(int fid) throws InvalidIDException {
+	public void deleteFlight(int fid) throws InvalidIDException {
 		flightRepository.deleteById(fid);
-		Optional<Flight> optional = flightRepository.findById(fid);
-		if (!optional.isPresent()) {
-			throw new InvalidIDException("Customer ID invalid");
-		}
-		return optional.get();
+		
+		
 
 	}
 
-	public double getfare(int fid) {
-		
-		return flightRepository.getfare(fid);
-	}
+	
 
 
-	//public List<Flight> getReq(String Airline, String Timings) {
-		
-		//if(Timings)
-		
-		
-		//return flightRepository.findreq(Airline,Timings);
-	//}
+	
 
 	public List<Flight> findBy(int aid, LocalDate date) {
 		

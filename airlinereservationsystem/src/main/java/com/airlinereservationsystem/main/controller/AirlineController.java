@@ -13,19 +13,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.airlinereservationsystem.main.dto.AirlineDto;
-import com.airlinereservationsystem.main.dto.PassengerDto;
+import com.airlinereservationsystem.main.enums.Role;
 import com.airlinereservationsystem.main.exception.InvalidIDException;
 import com.airlinereservationsystem.main.model.Airline;
-import com.airlinereservationsystem.main.model.Customer;
 import com.airlinereservationsystem.main.model.User;
 import com.airlinereservationsystem.main.service.AirlineService;
 import com.airlinereservationsystem.main.service.UserService;
 
 @RestController
+@RequestMapping("/airline")
 public class AirlineController {
 
 	@Autowired
@@ -34,36 +34,21 @@ public class AirlineController {
 	private UserService userService;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
-	
-	
-	/* localhost:8081/airline/add
-	   {
-      "name":" ",
-      "code":" ",
-      "user":{
-          "username":" ",
-          "password":" "
-              }
-       }
-	 */
 
-	@PostMapping("/airline/add")
+	@PostMapping("/add")
 	public Airline addAirline(@RequestBody Airline airline) {
 
 		User user = airline.getUser();
 		String passwordPlain = user.getPassword();
 		String encodedPassword = passwordEncoder.encode(passwordPlain);
 		user.setPassword(encodedPassword);
-		user.setRole("AIRLINE");
+		user.setRole(Role.AIRLINE);
 		user = userService.insert(user);
 		airline.setUser(user);
 		return airlineService.insert(airline);
 	}
 
-	 
-	 //localhost:8081/airline/getone/7
-	@GetMapping("/airline/getone/{id}")
+	@GetMapping("/getone/{id}")
 	public ResponseEntity<?> getAirline(@PathVariable("id") int id) {
 		try {
 			Airline airline = airlineService.getAirline(id);
@@ -72,40 +57,29 @@ public class AirlineController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-	
-     //localhost:8081/airline/getall
-	@GetMapping("/airline/getall")
+
+	@GetMapping("/getall")
 	public List<Airline> getAllAirline(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(value = "size", required = false, defaultValue = "10000000") Integer size) {
 		Pageable pageable = PageRequest.of(page, size); // null null
 		return airlineService.getAll(pageable);
 	}
-     
-	//localhost:8081/airline/delete/13
-	@DeleteMapping("/airline/delete/{id}")
+
+	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteAirline(@PathVariable("id") int id) {
 
 		try {
 			Airline airline = airlineService.getAirline(id);
-			
+
 			airlineService.deleteAirline(airline);
 			return ResponseEntity.ok().body("Airline deleted successfully");
 		} catch (InvalidIDException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-    
-	
-	/*
-	 localhost:8081/airline/update/11
-	 {
-      "name":" ",
-      "code":" "
-      }
-	 
-	 */
-	@PutMapping("/airline/update/{id}")
-	public ResponseEntity<?> updateAirline(@PathVariable("id") int id, @RequestBody AirlineDto newAirline) {
+
+	@PutMapping("/update/{id}")
+	public ResponseEntity<?> updateAirline(@PathVariable("id") int id, @RequestBody Airline newAirline) {
 
 		try {
 			Airline oldAirline = airlineService.getAirline(id);
