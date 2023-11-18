@@ -126,5 +126,28 @@ public class CustomerFlightService {
 	public List<CustomerFlight> getpassenger(int fid) {
 		return  customerFlightRepository.getByFlightId(fid);
 	}
+
+	public int getTotalFlights(int aid) {
+		
+		return  customerFlightRepository.getTotalFlights(aid) ;
+	}
+	public Double getTotalIncome(int airlineId) {
+		
+		return  customerFlightRepository.getTotalIncomeForAirline(airlineId);
+	}
+
+	public long getTotalPassengers(int aid) {
+		
+		return  customerFlightRepository.getTotalPassengers(aid);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	}
