@@ -32,7 +32,7 @@ public class CustomerFlightService {
 		return customerFlightRepository.getMyBookings(cid);
 	}
 
-	public double price(int fid, int age, Seatclass seatclass) throws InvalidIDException {
+	/*public double price(int fid, int age, Seatclass seatclass) throws InvalidIDException {
 
 		Optional<Flight> optional = flightRepository.findById(fid);
 		if (!optional.isPresent())
@@ -43,16 +43,16 @@ public class CustomerFlightService {
 			double price = optional.get().getBusinessClassPrice();
 			if (age >= 12)
 				return price;
-			else if (age < 12)
+			else if (age < 12 && age>2)
 				return price * 0.75;
-			else if (age < 2)
+			else if(age < 2)
 				return price * 0.40;
 		} else if (seatclass.equals(Seatclass.FIRST_CLASS)) {
 
 			double price = optional.get().getFirstClassPrice();
 			if (age >= 12)
 				return price;
-			else if (age < 12)
+			else if (age < 12 && age>2)
 				return price * 0.75;
 			else if (age < 2)
 				return price * 0.40;
@@ -61,7 +61,7 @@ public class CustomerFlightService {
 			double price = optional.get().getEconomyClassPrice();
 			if (age >= 12)
 				return price;
-			else if (age < 12)
+			else if (age < 12 && age>2)
 				return price * 0.75;
 			else if (age < 2)
 				return price * 0.40;
@@ -69,7 +69,41 @@ public class CustomerFlightService {
 
 		// You might want to handle the case where an invalid seat class is provided
 		throw new IllegalArgumentException("Invalid seat class");
+	}*/
+	public double price(int fid, int age, Seatclass seatclass) throws InvalidIDException {
+	    Optional<Flight> optional = flightRepository.findById(fid);
+	    if (!optional.isPresent())
+	        throw new InvalidIDException("Flight does not exist");
+
+	    double price;
+
+	    switch (seatclass) {
+	        case BUSINESS_CLASS:
+	            price = optional.get().getBusinessClassPrice();
+	            break;
+	        case FIRST_CLASS:
+	            price = optional.get().getFirstClassPrice();
+	            break;
+	        case ECONOMY_CLASS:
+	            price = optional.get().getEconomyClassPrice();
+	            break;
+	        default:
+	            // Invalid seat class
+	            throw new InvalidIDException("Invalid seat class");
+	    }
+
+	    if (age >= 12) {
+	        return price;
+	    } else if (age < 12 && age >= 2) {
+	        return price * 0.75;
+	    } else if (age < 2) {
+	        return price * 0.40;
+	    }
+
+	    // Default case, though it should never reach here if age is handled properly
+	    throw new InvalidIDException("Invalid age");
 	}
+
 
 	public CustomerFlight getBooking(int id) throws InvalidIDException {
 		Optional<CustomerFlight> optional = customerFlightRepository.findById(id);
