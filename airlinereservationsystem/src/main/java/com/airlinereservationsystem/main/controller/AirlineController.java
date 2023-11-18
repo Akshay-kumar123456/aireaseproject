@@ -37,11 +37,16 @@ public class AirlineController {
 
 	
 	/*
+	localhost:8081/airline/add
 	
-	
-	
-	
-	
+	{
+  "name": "Air India Express",
+  "code": "IX",
+  "user": {
+    "username": "aieadmin",
+    "password": "AirIndiaExpressPass!123"
+          }
+    }
 	*/
 	@PostMapping("/add")//adding new airline
 	public Airline addAirline(@RequestBody Airline airline) {
