@@ -25,8 +25,18 @@ public class ExecutiveController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	
-	@PostMapping("/add")
+	//localhost:8081/executive/add
+/*
+   {
+"name":"akshy",
+"email":"akshy123@gmail.com",
+"user":{
+        "username":"akshy",
+        "password":"akshy@123"
+       }
+   }
+*/
+	@PostMapping("/add") // adding new excuitev
 	public Executive addExecucutive(@RequestBody Executive executive) {
 		 
 		User user = executive.getUser();

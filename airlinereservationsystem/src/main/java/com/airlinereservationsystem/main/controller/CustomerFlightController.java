@@ -145,8 +145,6 @@ public class CustomerFlightController {
 		}
 	}
 
-<<<<<<< HEAD
-=======
 
 	
      @GetMapping("/statistics/flights/{aid}")
@@ -171,7 +169,7 @@ public class CustomerFlightController {
 	
 	
 	
->>>>>>> 07b453413d5063d1e64fdbea34133a165f4d19f9
+
 }
 	
 	 
