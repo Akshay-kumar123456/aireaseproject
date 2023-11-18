@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +24,7 @@ public class User implements UserDetails {
 	private int id;
 	private String password;
 	private String username;
+	@Enumerated(EnumType.STRING)
 	private Role role;
 
 	

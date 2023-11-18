@@ -47,11 +47,12 @@ public class RouteService {
 
 
 	public Route getidbySD(String source, String destination) throws InvalidIDException {
-	Route route =	routeRepository.getRoute(source,destination);
-	    if(route.getId()==0)
-	    	throw new InvalidIDException("no routes avaliable");
+		
+	Optional<Route> optional =	routeRepository.getRoute(source,destination);
+	    if(!optional.isPresent())
+	    	throw new InvalidIDException("no routes avaliable, you need to add this route");
 	    	
-		return route;
+		return optional.get();
 	}
 
 

@@ -43,6 +43,7 @@ public class FlightController {
 		try {
 			Flight flight = new Flight();
 			Airline airline = airlineService.getAirline(aid);
+			
 			flight.setAirline(airline);
 			String source = flightDto.getSource();
 			String destination = flightDto.getDestination();
@@ -97,7 +98,7 @@ public class FlightController {
 
 	}
 
-	@DeleteMapping("/{fid}") // delete flight by flight id
+	@DeleteMapping("/delete/{fid}") // delete flight by flight id
 	public ResponseEntity<?> deleteflight(@PathVariable("fid") int fid) {
 		try {
 			Flight flight = flightService.getById(fid);
