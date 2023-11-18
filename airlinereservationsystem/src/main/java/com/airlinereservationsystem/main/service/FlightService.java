@@ -67,16 +67,6 @@ public class FlightService {
 		return flightRepository.getfare(fid);
 	}
 
-<<<<<<< HEAD
-	
-	
-	public List<Flight> findBy(int fid, LocalDate date) {
-		// TODO Auto-generated method stub
-		return flightRepository.findBy(fid,date);
-	}
-
-	
-=======
 
 	//public List<Flight> getReq(String Airline, String Timings) {
 		
@@ -91,6 +81,5 @@ public class FlightService {
 		return flightRepository.findBy(aid,date);
 	}
 
->>>>>>> 19ae6ceb11c191f15e73b43ea9eb291cd46ddfc0
 
 }

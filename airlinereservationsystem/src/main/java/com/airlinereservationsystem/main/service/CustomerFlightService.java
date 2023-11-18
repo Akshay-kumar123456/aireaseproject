@@ -39,14 +39,6 @@ public class CustomerFlightService {
 		return (fare*0.2);
 	}
 
-
-	public List<CustomerFlight> findBy(int fid, LocalDate date) {
-		
-		return customerFlightRepository.findAll();
-	}
-
-
-
 	public CustomerFlight getBooking(int id) throws InvalidIDException {
 		Optional<CustomerFlight> optional = customerFlightRepository.findById(id);
 		if (!optional.isPresent()) {
@@ -70,6 +62,3 @@ public class CustomerFlightService {
 	}
 	
 	}
-
-
-

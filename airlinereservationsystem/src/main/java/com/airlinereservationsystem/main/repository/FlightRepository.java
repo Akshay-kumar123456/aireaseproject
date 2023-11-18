@@ -27,9 +27,6 @@ public interface FlightRepository extends JpaRepository<Flight, Integer> {
 	
 	@Query("SELECT f FROM Flight f where f.airline.id = ?1 and f.departureDate = ?2")
 	List<Flight> findBy(int aid, LocalDate date);
-
-    @Query("select f from flight f where f.id = ?1 and f.date=?2")
-	List<Flight> findAll(int fid, LocalDate date);
     
 	
 
