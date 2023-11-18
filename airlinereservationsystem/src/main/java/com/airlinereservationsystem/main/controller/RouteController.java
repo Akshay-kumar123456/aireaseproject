@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +24,7 @@ import com.airlinereservationsystem.main.model.Route;
 import com.airlinereservationsystem.main.service.RouteService;
 
 @RestController
+@RequestMapping("/route")
 public class RouteController {
 	@Autowired
 	private RouteService routeService;
@@ -31,13 +33,13 @@ public class RouteController {
 	 * localhost:8081/route/add { "departureCity": " ", "arrivalCity": " ",
 	 * "distance": , "duration": }
 	 */
-	@PostMapping("/route/add")
+	@PostMapping("/add")
 	public Route addRoute(@RequestBody Route route) {
 		return routeService.insert(route);
 	}
 
 	// localhost:8081/route/getone/3
-	@GetMapping("/route/getone/{id}")
+	@GetMapping("/getone/{id}")
 	public ResponseEntity<?> getRoute(@PathVariable("id") int id) {
 
 		try {
@@ -50,7 +52,7 @@ public class RouteController {
 	}
 
 	// localhost:8081/route/getall
-	@GetMapping("/route/getall")
+	@GetMapping("/getall")
 	public List<Route> getAllRoute(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(value = "size", required = false, defaultValue = "10000000") Integer size) {
 
@@ -60,7 +62,7 @@ public class RouteController {
 	}
 
 	// localhost:8081/route/delete/4
-	@DeleteMapping("/route/delete/{id}")
+	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteRoute(@PathVariable("id") int id) {
 		try {
 			Route route = routeService.getRoute(id);
@@ -79,7 +81,7 @@ public class RouteController {
     "distance":350
 }
 	 */
-	@PutMapping("/route/update/{id}")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<?> updateRoute(@PathVariable("id") int id, @RequestBody RouteDto newRoute) {
 
 		try {

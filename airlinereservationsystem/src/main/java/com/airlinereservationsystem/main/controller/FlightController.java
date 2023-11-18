@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import com.airlinereservationsystem.main.dto.FlightDto;
 import com.airlinereservationsystem.main.exception.InvalidIDException;
@@ -28,6 +28,7 @@ import com.airlinereservationsystem.main.service.FlightService;
 import com.airlinereservationsystem.main.service.RouteService;
 
 @RestController
+@RequestMapping("/flight")
 public class FlightController {
 	@Autowired
 	private FlightService flightService;
@@ -89,7 +90,7 @@ public class FlightController {
 	}
 
 	// localhost:8081/flight/2023-12-01
-	@GetMapping("/flight/{date}") // find flights by date
+	@GetMapping("/{date}") // find flights by date
 	public List<Flight> getByDate(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
 
 		return flightService.getByDate(date);
@@ -107,9 +108,8 @@ public class FlightController {
 		}
 
 	}
-	
-	
-	@GetMapping("getbyairline/{date}/{aid}")
+
+	@GetMapping("/getbyairline/{date}/{aid}")
 	public ResponseEntity<?> getflight(@PathVariable("aid") int aid,
 			@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
 		try {
@@ -126,7 +126,7 @@ public class FlightController {
 
 		}
 	}
-	
+
 	@PutMapping("/update/{id}") // update flight
 	public ResponseEntity<?> updateFlight(@PathVariable("id") int id, @RequestBody Flight flight) {
 		try {
@@ -141,11 +141,11 @@ public class FlightController {
 				flight1.setArrivalDate(flight.getArrivalDate());
 			if (flight.getAvailableSeats() != 0)
 				flight1.setAvailableSeats(flight.getAvailableSeats());
-			if(flight.getBusinessClassPrice()!=0)
+			if (flight.getBusinessClassPrice() != 0)
 				flight1.setBusinessClassPrice(flight.getBusinessClassPrice());
-			if(flight.getEconomyClassPrice()!=0)
+			if (flight.getEconomyClassPrice() != 0)
 				flight1.setEconomyClassPrice(flight.getEconomyClassPrice());
-			if(flight.getFirstClassPrice()!=0)
+			if (flight.getFirstClassPrice() != 0)
 				flight1.setFirstClassPrice(flight.getFirstClassPrice());
 			// Save the updated flight to the service
 			flight1 = flightService.insert(flight1);
@@ -155,13 +155,5 @@ public class FlightController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-	
-	
-	
-
-	
-	
-	
-	
 
 }

@@ -35,7 +35,7 @@ public class AirlineController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	@PostMapping("/add")
+	@PostMapping("/add")//adding new airline
 	public Airline addAirline(@RequestBody Airline airline) {
 
 		User user = airline.getUser();

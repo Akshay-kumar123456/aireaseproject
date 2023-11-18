@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import com.airlinereservationsystem.main.dto.PassengerDto;
 import com.airlinereservationsystem.main.exception.InvalidIDException;
@@ -30,6 +30,7 @@ import com.airlinereservationsystem.main.service.CustomerService;
 import com.airlinereservationsystem.main.service.FlightService;
 
 @RestController
+@RequestMapping("/customerflight")
 public class CustomerFlightController {
 	@Autowired
 	private CustomerService customerService;
@@ -38,8 +39,6 @@ public class CustomerFlightController {
 
 	@Autowired
 	private CustomerFlightService customerFlightService;
-
-	private CustomerFlight customerFlight;
 
 	@PostMapping("/book/{cid}/{fid}")
 	public ResponseEntity<?> booktickets(@PathVariable("fid") int fid, @PathVariable("cid") int cid,
@@ -61,7 +60,7 @@ public class CustomerFlightController {
 				customerFlight.setGender(passengerDto.getGender());
 				customerFlight.setSeatclass(passengerDto.getSeatclass());
 				customerFlight
-						.setPrice(customerFlightService.price(fid, passengerDto.getAge(),passengerDto.getSeatclass()));
+						.setPrice(customerFlightService.price(fid, passengerDto.getAge(), passengerDto.getSeatclass()));
 				customerFlight.setSeatNumber(passengerDto.getSeatNumber());
 				totalPrice = totalPrice + (customerFlight.getPrice());
 				// Add the processed ticket to the list
@@ -80,7 +79,7 @@ public class CustomerFlightController {
 	}
 
 	// localhost:8081/flight/bookings/20
-	@GetMapping("/flight/bookings/{cid}") // get your bookings
+	@GetMapping("/bookings/{cid}") // get your bookings
 	public ResponseEntity<?> getYourBookings(@PathVariable("cid") int cid) {
 
 		try {
@@ -92,8 +91,9 @@ public class CustomerFlightController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-    //localhost:8081/flight/passengers/114
-	@GetMapping("/flight/passengers/{fid}") // get your bookings
+
+	// localhost:8081/flight/passengers/114
+	@GetMapping("/passengers/{fid}") // get your bookings
 	public ResponseEntity<?> getpassengers(@PathVariable("fid") int fid) {
 
 		try {
@@ -105,14 +105,15 @@ public class CustomerFlightController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-	
-	//localhost:8081/flight/passengers/114/2023-11-13
+
+	// localhost:8081/flight/passengers/114/2023-11-13
 	@GetMapping("/flight/passengers/{fid}/{date}") // get your bookings
-	public ResponseEntity<?> getpassengers(@PathVariable("fid") int fid,@PathVariable("date")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date ) {
+	public ResponseEntity<?> getpassengers(@PathVariable("fid") int fid,
+			@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
 
 		try {
 			Flight flight = flightService.getById(fid);
-			List<CustomerFlight> list = customerFlightService.getpassengerslist(fid,date);
+			List<CustomerFlight> list = customerFlightService.getpassengerslist(fid, date);
 			return ResponseEntity.ok().body(list);
 
 		} catch (InvalidIDException e) {
@@ -120,15 +121,7 @@ public class CustomerFlightController {
 		}
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	@GetMapping("/bookings/{cid}")
+	@GetMapping("/allbookings/{cid}")
 	public List<Customer> getAllCustomer(
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(value = "size", required = false, defaultValue = "10000000") Integer size) {
@@ -137,8 +130,8 @@ public class CustomerFlightController {
 		return customerService.getAll(pageable);
 
 	}
-	
-	//localhost:8081/booking/delete/129
+
+	// localhost:8081/booking/delete/129
 	@DeleteMapping("/booking/delete/{bid}")
 	public ResponseEntity<?> deleteBooking(@PathVariable("bid") int id) {
 		try {
@@ -152,6 +145,4 @@ public class CustomerFlightController {
 		}
 	}
 
-	
-	 
 }
