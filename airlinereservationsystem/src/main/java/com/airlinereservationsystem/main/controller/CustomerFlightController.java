@@ -145,33 +145,17 @@ public class CustomerFlightController {
 		}
 	}
 
-<<<<<<< HEAD
-=======
+
 
 	
-     @GetMapping("/statistics/flights/{aid}")
-	    public ResponseEntity<?> getTotalFlights(@PathVariable("aid")int aid) {
-	        int totalFlights = customerFlightService.getTotalFlights(aid);
-	        return ResponseEntity.ok(totalFlights);
-	    }
-	    @GetMapping("/statistics/income/{aid}")
-	    public ResponseEntity<Double> getTotalIncome(@PathVariable("aid")int airlineId) {
-	        Double totalIncome = customerFlightService.getTotalIncome(airlineId);
-	        return ResponseEntity.ok(totalIncome != null ? totalIncome : 0);
-	    }
-
-      @GetMapping("/statistics/passengers/{aid}")
-	    public ResponseEntity<Long> getTotalPassengers(@PathVariable("aid")int aid ) {
-	        long totalPassengers = customerFlightService.getTotalPassengers( aid);
-	        return ResponseEntity.ok(totalPassengers);
-	    }
+    
 	
 
 	
 	
 	
 	
->>>>>>> 07b453413d5063d1e64fdbea34133a165f4d19f9
+
 }
 	
 	 

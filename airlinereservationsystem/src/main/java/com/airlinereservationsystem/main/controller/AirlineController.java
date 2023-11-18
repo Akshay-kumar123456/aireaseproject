@@ -22,6 +22,7 @@ import com.airlinereservationsystem.main.exception.InvalidIDException;
 import com.airlinereservationsystem.main.model.Airline;
 import com.airlinereservationsystem.main.model.User;
 import com.airlinereservationsystem.main.service.AirlineService;
+import com.airlinereservationsystem.main.service.CustomerFlightService;
 import com.airlinereservationsystem.main.service.UserService;
 
 @RestController
@@ -34,6 +35,8 @@ public class AirlineController {
 	private UserService userService;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	private CustomerFlightService customerFlightService;
 
 	
 	/*
@@ -107,4 +110,22 @@ public class AirlineController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
+	
+	
+	    @GetMapping("/statistics/flights/{aid}")
+	    public ResponseEntity<?> getTotalFlights(@PathVariable("aid")int aid) {
+	        int totalFlights = customerFlightService.getTotalFlights(aid);
+	        return ResponseEntity.ok(totalFlights);
+	    }
+	    @GetMapping("/statistics/income/{aid}")
+	    public ResponseEntity<Double> getTotalIncome(@PathVariable("aid")int airlineId) {
+	        Double totalIncome = customerFlightService.getTotalIncome(airlineId);
+	        return ResponseEntity.ok(totalIncome != null ? totalIncome : 0);
+	    }
+
+        @GetMapping("/statistics/passengers/{aid}")
+	    public ResponseEntity<Long> getTotalPassengers(@PathVariable("aid")int aid ) {
+	        long totalPassengers = customerFlightService.getTotalPassengers( aid);
+	        return ResponseEntity.ok(totalPassengers);
+	    }
 }
