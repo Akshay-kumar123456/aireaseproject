@@ -2,6 +2,7 @@ package com.airlinereservationsystem.main.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +24,7 @@ import com.airlinereservationsystem.main.exception.InvalidIDException;
 import com.airlinereservationsystem.main.model.Airline;
 import com.airlinereservationsystem.main.model.Flight;
 import com.airlinereservationsystem.main.model.Route;
+import com.airlinereservationsystem.main.repository.FlightRepository;
 import com.airlinereservationsystem.main.service.AirlineService;
 import com.airlinereservationsystem.main.service.FlightService;
 import com.airlinereservationsystem.main.service.RouteService;
@@ -36,6 +38,8 @@ public class FlightController {
 	private AirlineService airlineService;
 	@Autowired
 	private RouteService routeService;
+	
+	private FlightRepository flightRepository; 
 
 	@PostMapping("/add/{aid}")
 	public ResponseEntity<?> addFlight(@PathVariable("aid") int aid, @RequestBody FlightDto flightDto) {
@@ -157,4 +161,26 @@ public class FlightController {
 		}
 	}
 
+	
+	
+	 @GetMapping("/get/filter")
+	    public List<Flight> getflightsWithFilters(@RequestParam(required = false) String airline) {
+	        return flightRepository.findAll().stream()
+	        		.filter(flight -> airline == null || (flight.getAirline() != null && flight.getAirline().getName().equals(airline)))
+	                .collect(Collectors.toList());
+	    }
+	 
+	 
+	 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
