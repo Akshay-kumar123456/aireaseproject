@@ -35,8 +35,21 @@ public class CustomerController {
 	private CustomerService customerService;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-
-	@PostMapping("/signup")
+    //localhost:8081/customer/signup
+	/*
+	   {
+    "name": "Aarav Gupta",
+    "age": 32,
+    "gender": "Male",
+    "email": "aarav.gupta@example.com",
+    "phone": "9876543210",
+    "user": {
+      "username": "aarav32",
+      "password": "AaravGupta@123"
+    }
+    }
+  */
+	@PostMapping("/signup") // signup customer
 	public Customer signUp(@RequestBody Customer customer) {
 
 		User user = customer.getUser();
@@ -48,8 +61,8 @@ public class CustomerController {
 		customer.setUser(user);
 		return customerService.insert(customer);
 	}
-
-	@GetMapping("/getone/{id}")
+    //localhost:8081/customer/getone/14
+	@GetMapping("/getone/{id}") //get customer by ID
 	public ResponseEntity<?> getCustomer(@PathVariable("id") int id) {
 
 		try {
@@ -60,8 +73,8 @@ public class CustomerController {
 		}
 
 	}
-
-	@GetMapping("/getall")
+	//localhost:8081/customer/getall
+	@GetMapping("/getall") // get all customer at one time
 	public List<Customer> getAllCustomer(
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(value = "size", required = false, defaultValue = "10000000") Integer size) {
@@ -70,8 +83,8 @@ public class CustomerController {
 		return customerService.getAll(pageable);
 
 	}
-
-	@DeleteMapping("/delete/{id}")
+    //localhost:8081/customer/delete/14
+	@DeleteMapping("/delete/{id}")//Delete Customer By Id
 	public ResponseEntity<?> deleteCustomer(@PathVariable("id") int id) {
 
 		try {
@@ -85,7 +98,18 @@ public class CustomerController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-
+//localhost:8081/customer/update/12
+	/* {
+    "name": "Sneha Patel",
+    "age": 25,
+    "gender": "Female",
+    "email": "sneha.patel@example.com",
+    "phone": "8765432109",
+    "user": {
+      "username": "sneha25",
+      "password": "SnehaPatel@456"
+    }
+  } */
 	@PutMapping("/update/{id}")
 	public ResponseEntity<?> updateCustomer(@PathVariable("id") int id, @RequestBody Customer newCustomer) {
 		try {

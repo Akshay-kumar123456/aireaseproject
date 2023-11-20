@@ -63,8 +63,8 @@ public class AirlineController {
 		airline.setUser(user);
 		return airlineService.insert(airline);
 	}
-
-	@GetMapping("/getone/{id}")
+	//localhost:8081/airline/getone/26
+	@GetMapping("/getone/{id}") // Geting Airline By Id
 	public ResponseEntity<?> getAirline(@PathVariable("id") int id) {
 		try {
 			Airline airline = airlineService.getAirline(id);
@@ -73,15 +73,15 @@ public class AirlineController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-
-	@GetMapping("/getall")
+	//localhost:8081/airline/getall
+	@GetMapping("/getall") // Geting All Airlines 
 	public List<Airline> getAllAirline(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(value = "size", required = false, defaultValue = "10000000") Integer size) {
 		Pageable pageable = PageRequest.of(page, size); // null null
 		return airlineService.getAll(pageable);
 	}
-
-	@DeleteMapping("/delete/{id}")
+    //localhost:8081/airline/delete/26
+	@DeleteMapping("/delete/{id}") // Delete Airline By Id
 	public ResponseEntity<?> deleteAirline(@PathVariable("id") int id) {
 
 		try {
@@ -93,7 +93,7 @@ public class AirlineController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-
+    //localhost:8081/airline/update/18
 	@PutMapping("/update/{id}")
 	public ResponseEntity<?> updateAirline(@PathVariable("id") int id, @RequestBody Airline newAirline) {
 

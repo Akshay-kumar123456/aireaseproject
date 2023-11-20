@@ -39,7 +39,14 @@ public class CustomerFlightController {
 
 	@Autowired
 	private CustomerFlightService customerFlightService;
-
+    //localhost:8081/customerflight/book/8/42
+	/*
+[{"name":"pepper pots",
+   "age":29,
+   "gender":"male",
+   "seatNumber":1,
+   "seatclass":"FIRST_CLASS"
+}]*/
 	@PostMapping("/book/{cid}/{fid}")
 	public ResponseEntity<?> booktickets(@PathVariable("fid") int fid, @PathVariable("cid") int cid,
 			@RequestBody List<PassengerDto> passengerDtoList) {
@@ -120,7 +127,7 @@ public class CustomerFlightController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-
+    //localhost:8081/customerflight/allbookings/8
 	@GetMapping("/allbookings/{cid}")
 	public List<Customer> getAllCustomer(
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
@@ -145,13 +152,7 @@ public class CustomerFlightController {
 		}
 	}
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 5c7d7542587cf4aa0a61f622edcbcd08ff21d508
-
-	
-    
+  
 	
 
 	

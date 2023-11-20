@@ -36,7 +36,7 @@ public class ExecutiveController {
        }
    }
 */
-	@PostMapping("/add") // adding new excuitev
+	@PostMapping("/add") // adding new Executive
 	public Executive addExecucutive(@RequestBody Executive executive) {
 		 
 		User user = executive.getUser();
@@ -51,22 +51,22 @@ public class ExecutiveController {
 	}
 	
 	
-	
+	//localhost:8081/executive/totalairlines
 	@GetMapping("/totalairlines")
     public ResponseEntity<Long> getTotalAirlines() {
         long totalAirlines = executiveService.getTotalAirlines();
         return ResponseEntity.ok(totalAirlines);
     }
 
- 
+    //localhost:8081/executive/totalusers
     @GetMapping("/totalusers")
     public ResponseEntity<Long> getTotalUsers() {
         long totalUsers = executiveService.getTotalUsers();
         return ResponseEntity.ok(totalUsers);
     }
 
-    
-    @GetMapping("/totalfeedbacks")
+    //localhost:8081/executive/totalfeedbacks
+    @GetMapping("/totalfeedbacks") // Gets total number of feedbacks given
     public ResponseEntity<Long> getTotalFeedbacks() {
         long totalFeedbacks = executiveService.getTotalFeedbacks();
         return ResponseEntity.ok(totalFeedbacks);
