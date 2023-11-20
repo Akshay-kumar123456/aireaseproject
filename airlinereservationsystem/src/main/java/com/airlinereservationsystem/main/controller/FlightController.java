@@ -41,6 +41,21 @@ public class FlightController {
 	
 	private FlightRepository flightRepository; 
 
+	
+	/*
+	 * {
+    "arrivalDate":"2023-11-19",
+    "availableSeats":30,
+    "businessClassPrice":22000,
+    "code":"UK",
+    "departureDate":"2023-11-19",
+    "departureTime":"12:00",
+    "economyClassPrice":15000,
+    "firstClassPrice":19000,
+    "source":"Pune",
+    "destination":"Lucknow"
+}*/
+	// localhost:8081/flight/add/18
 	@PostMapping("/add/{aid}")
 	public ResponseEntity<?> addFlight(@PathVariable("aid") int aid, @RequestBody FlightDto flightDto) {
 
@@ -113,7 +128,7 @@ public class FlightController {
 		}
 
 	}
-
+    // localhost:8081/flight/getbyairline/2023-11-19/18
 	@GetMapping("/getbyairline/{date}/{aid}")
 	public ResponseEntity<?> getflight(@PathVariable("aid") int aid,
 			@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
@@ -131,7 +146,7 @@ public class FlightController {
 
 		}
 	}
-
+    // localhost:8081/flight/update/42
 	@PutMapping("/update/{id}") // update flight
 	public ResponseEntity<?> updateFlight(@PathVariable("id") int id, @RequestBody Flight flight) {
 		try {

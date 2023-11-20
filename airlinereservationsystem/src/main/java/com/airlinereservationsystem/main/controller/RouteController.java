@@ -38,7 +38,7 @@ public class RouteController {
 		return routeService.insert(route);
 	}
 
-	// localhost:8081/route/getone/3
+	// localhost:8081/route/getone/28
 	@GetMapping("/getone/{id}")
 	public ResponseEntity<?> getRoute(@PathVariable("id") int id) {
 
