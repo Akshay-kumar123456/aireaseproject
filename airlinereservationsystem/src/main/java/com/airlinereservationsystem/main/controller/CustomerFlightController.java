@@ -152,15 +152,7 @@ public class CustomerFlightController {
 		}
 	}
 
-<<<<<<< HEAD
 
-
-	
-    
-=======
-  
->>>>>>> 61bde7e73f0039c8e0256b7a2b76cbf9cecd943c
-	
 
 	
 	

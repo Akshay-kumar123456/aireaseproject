@@ -38,7 +38,7 @@ public class FlightController {
 	private AirlineService airlineService;
 	@Autowired
 	private RouteService routeService;
-	
+	@Autowired
 	private FlightRepository flightRepository; 
 
 	
@@ -177,7 +177,7 @@ public class FlightController {
 	}
 
 	
-	
+	//localhost:8081/flight/get/filter?airline=Indigo
 	 @GetMapping("/get/filter")
 	    public List<Flight> getflightsWithFilters(@RequestParam(required = false) String airline) {
 	        return flightRepository.findAll().stream()
