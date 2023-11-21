@@ -35,7 +35,7 @@ public class AirlineController {
 	private UserService userService;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+	@Autowired
 	private CustomerFlightService customerFlightService;
 
 	
@@ -111,18 +111,20 @@ public class AirlineController {
 		}
 	}
 	
-	
+	   //localhost:8081/airline/statistics/flights/44
 	    @GetMapping("/statistics/flights/{aid}")
 	    public ResponseEntity<?> getTotalFlights(@PathVariable("aid")int aid) {
 	        int totalFlights = customerFlightService.getTotalFlights(aid);
 	        return ResponseEntity.ok(totalFlights);
 	    }
+	    
+	    //localhost:8081/airline/statistics/income/46
 	    @GetMapping("/statistics/income/{aid}")
 	    public ResponseEntity<Double> getTotalIncome(@PathVariable("aid")int airlineId) {
 	        Double totalIncome = customerFlightService.getTotalIncome(airlineId);
 	        return ResponseEntity.ok(totalIncome != null ? totalIncome : 0);
 	    }
-
+        //localhost:8081/airline/statistics/passengers/46
         @GetMapping("/statistics/passengers/{aid}")
 	    public ResponseEntity<Long> getTotalPassengers(@PathVariable("aid")int aid ) {
 	        long totalPassengers = customerFlightService.getTotalPassengers( aid);
