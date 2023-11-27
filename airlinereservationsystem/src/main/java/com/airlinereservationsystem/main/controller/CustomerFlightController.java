@@ -20,14 +20,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.airlinereservationsystem.main.dto.PassengerDto;
 import com.airlinereservationsystem.main.exception.InvalidIDException;
 import com.airlinereservationsystem.main.model.Customer;
 import com.airlinereservationsystem.main.model.CustomerFlight;
 import com.airlinereservationsystem.main.model.Flight;
+import com.airlinereservationsystem.main.model.Seat;
 import com.airlinereservationsystem.main.service.CustomerFlightService;
 import com.airlinereservationsystem.main.service.CustomerService;
 import com.airlinereservationsystem.main.service.FlightService;
+import com.airlinereservationsystem.main.service.SeatService;
 
 @RestController
 @RequestMapping("/customerflight")
@@ -36,6 +39,8 @@ public class CustomerFlightController {
 	private CustomerService customerService;
 	@Autowired
 	private FlightService flightService;
+	@Autowired
+	private SeatService seatService;
 
 	@Autowired
 	private CustomerFlightService customerFlightService;
@@ -65,24 +70,27 @@ public class CustomerFlightController {
 				customerFlight.setName(passengerDto.getName());
 				customerFlight.setAge(passengerDto.getAge());
 				customerFlight.setGender(passengerDto.getGender());
-				customerFlight.setSeatclass(passengerDto.getSeatclass());
+				Seat seat = seatService.getseat(passengerDto.getSeatNumber(),fid);
 				customerFlight
-						.setPrice(customerFlightService.price(fid, passengerDto.getAge(), passengerDto.getSeatclass()));
-				customerFlight.setSeatNumber(passengerDto.getSeatNumber());
+				.setPrice(customerFlightService.price(fid, passengerDto.getAge(),seat.getSeatclass()));
+				customerFlight.setSeat(seat);
+				seatService.updateseats(seat.getId());
 				totalPrice = totalPrice + (customerFlight.getPrice());
 				// Add the processed ticket to the list
 				bookedTickets.add(customerFlightService.insert(customerFlight));
+				
+				
 			}
-
+			
 			Map<String, Object> response = new HashMap<>();
 			response.put("bookedTickets", bookedTickets);
 			response.put("totalPrice", totalPrice);
 
 			return ResponseEntity.ok().body(response);
-
-		} catch (InvalidIDException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+	 }
+			catch (Exception e) {
+				return ResponseEntity.badRequest().body(e.getMessage());
+			}
 	}
 
 	// localhost:8081/flight/bookings/20

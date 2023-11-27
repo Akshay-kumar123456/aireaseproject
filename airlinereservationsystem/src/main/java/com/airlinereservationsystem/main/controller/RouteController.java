@@ -15,11 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.airlinereservationsystem.main.dto.AirlineDto;
-import com.airlinereservationsystem.main.dto.RouteDto;
 import com.airlinereservationsystem.main.exception.InvalidIDException;
-import com.airlinereservationsystem.main.model.Airline;
 import com.airlinereservationsystem.main.model.Route;
 import com.airlinereservationsystem.main.service.RouteService;
 
@@ -82,7 +78,7 @@ public class RouteController {
 }
 	 */
 	@PutMapping("/update/{id}")
-	public ResponseEntity<?> updateRoute(@PathVariable("id") int id, @RequestBody RouteDto newRoute) {
+	public ResponseEntity<?> updateRoute(@PathVariable("id") int id, @RequestBody Route newRoute) {
 
 		try {
 			Route oldRoute = routeService.getRoute(id);

@@ -54,20 +54,12 @@ public class FlightService {
 
 	public void deleteFlight(int fid) throws InvalidIDException {
 		flightRepository.deleteById(fid);
-		
-		
 
 	}
-
-	
-
-
-	
 
 	public List<Flight> findBy(int aid, LocalDate date) {
-		
-		return flightRepository.findBy(aid,date);
-	}
 
+		return flightRepository.findBy(aid, date);
+	}
 
 }

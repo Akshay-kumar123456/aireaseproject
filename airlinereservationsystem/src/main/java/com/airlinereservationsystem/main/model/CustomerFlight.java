@@ -9,7 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 
 import com.airlinereservationsystem.main.enums.Seatclass;
 
@@ -25,15 +27,23 @@ public class CustomerFlight {
 	private String name;
 	private int age;
 	private String gender;
-	private String seatNumber;
+	@OneToOne  
+	private Seat seat;
 	private LocalDate date;
 	private double price;
-	@Enumerated(EnumType.STRING)
-	private Seatclass seatclass;
+	
 	@ManyToOne
 	private Flight flight;
 	@ManyToOne
 	private Customer customer;
+	
+	
+	public Seat getSeat() {
+		return seat;
+	}
+	public void setSeat(Seat seat) {
+		this.seat = seat;
+	}
 	public double getPrice() {
 		return price;
 	}
@@ -65,24 +75,14 @@ public class CustomerFlight {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getSeatNumber() {
-		return seatNumber;
-	}
-	public void setSeatNumber(String seatNumber) {
-		this.seatNumber = seatNumber;
-	}
+	
 	public LocalDate getDate() {
 		return date;
 	}
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
-	public Seatclass getSeatclass() {
-		return seatclass;
-	}
-	public void setSeatclass(Seatclass seatclass) {
-		this.seatclass = seatclass;
-	}
+	
 	public Flight getFlight() {
 		return flight;
 	}
@@ -97,9 +97,8 @@ public class CustomerFlight {
 	}
 	@Override
 	public String toString() {
-		return "CustomerFlight [id=" + id + ", name=" + name + ", age=" + age + ", gender=" + gender + ", seatNumber="
-				+ seatNumber + ", date=" + date + ", price=" + price + ", seatclass=" + seatclass + ", flight=" + flight
-				+ ", customer=" + customer + "]";
+		return "CustomerFlight [id=" + id + ", name=" + name + ", age=" + age + ", gender=" + gender + ", seat=" + seat
+				+ ", date=" + date + ", price=" + price + ", flight=" + flight + ", customer=" + customer + "]";
 	}
 	
 	
