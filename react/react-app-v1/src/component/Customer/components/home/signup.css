@@ -1,0 +1,86 @@
+/* ---------- SIGN IN ---------- */
+.sign-in__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+  }
+  
+  .sign-in__backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  
+  .sign-in__wrapper form {
+   /* width: 24rem;*/
+   width: fit-content;
+    max-width: 90%;
+    z-index: 1;
+    animation: showSignInForm 1s;
+  }
+  
+  .sign-in__wrapper form img {
+    width: 4rem;
+  }
+  
+  @keyframes showSignInForm {
+    0%,
+    30% {
+      transform: translate(0, -150%);
+    }
+    70%,
+    90% {
+      transform: translate(0, 1rem);
+    }
+    80%,
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+  hr {
+    border:none;
+    height: 20px;
+     width: 90%;
+    height: 50px;
+    margin-top: 0;
+    border-bottom: 2px solid #1f1209;
+    box-shadow: 0px 20px 20px -20px #333;
+    margin: -50px auto 10px; 
+  }
+  .sign-in__wrapper form .mb-2 label {
+    text-align: left;
+  }
+  /* Existing styles */
+
+/* New style to set the border color to dark */
+.sign-in__wrapper form .mb-2 input,
+.sign-in__wrapper form .mb-2 select,
+.sign-in__wrapper form .mb-2 textarea {
+  border: 1px solid #333; /* Replace #333 with the dark color of your choice */
+}
+/* Existing styles */
+
+/* New style to set the color of the placeholder in the select */
+.sign-in__wrapper form .mb-2 select::placeholder {
+  color: #999; /* Replace #999 with the desired color for the placeholder text */
+}
+/* Add this to your CSS file or component style block */
+.dark-checkbox .form-check-input {
+  background-color: #272424; 
+  border-color: #0c0b0b; 
+  color: #181616; 
+}
+/* signup.css */
+.fixed-navbar {
+  position: fixed;
+  width: 100%;
+  z-index: 1000; /* Adjust the z-index as needed */
+  /* Add other styling properties as needed */
+}

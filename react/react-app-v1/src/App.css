@@ -36,17 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-
-.content{
-  border: 1px solid #282c34;
-}
-
-.arry{
-  margin: 10px;
-}
-
-.tbl{
-  width: 100%;
-  text-align: center;
-}

@@ -1,44 +1,64 @@
-import './App.css';
+import React from "react";
+import { Route, Routes } from "react-router";
+import "./App.css";
+import Login from "./component/Auth/login";
+import Signup from "./component/Customer/components/home/signup";
+import Home from "./component/Customer/components/home/home";
+//import AirlineDashboard from "./component/Airline/dashboard";
+import ExecutiveDashboard from "./component/Executive/dashboard";
+import GetFlights from "./component/Customer/components/search flights/search";
+import FlightSearch from "./component/Customer/components/search flights/searchflight";
+import AboutUs from "./component/Customer/components/Aboutus/aboutus";
 
-import ReadingInput from './component/readingInput';
- 
+import BookTicket from "./component/Customer/components/book";
+
+import PreviousBookings from "./component/Customer/components/Contactus/bookings";
+import AirlineDashboard from "./component/Airline/airlinedashboard";
+import AirlineHome from "./component/Airline/airlinhome";
+import About from "./component/Airline/about";
+import Allflights from "./component/Airline/Allflights";
+import ADDflights from "./component/Airline/Addflights";
+import Aboutexe from "./component/Executive/aboutourweb";
+//import FlightSearch from "./component/Customer/components/search flights/demo";
+
+// import Home from "./component/Customer/home";
+// import Navbarcomponent from "./component/Customer/navbar";
+
 function App() {
-  
   return (
-    <div>
-       {/* <MyClick /> : call function on click of a button and change the msg value*/} 
-       {/* <MyArray /> : 
-            Display the initial value of array using map. 
-            call the function on click of button(sort-ASC,sort-DESC)
-            sort the array in the function using sort method of JS
-            When the state of the array changes, react will rerender the component and display
-            latest value. 
+    <div className="App">
+      
+      {/* <AirlineDashboard/> */}
+     
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/auth/login" element={<Login />} />
+        <Route path="/Customer/signup" element={<Signup />} />
 
-            AND SO, always create a state and not a simple variable. 
-       */}
-       {/* <Employee /> 
-            Create 3 objects having 4 props each. 
-            add these object to an array and iterate over it through map. 
-            call the function on click of button(sort-ASC,sort-DESC)
-            sort the array in the function using sort method of JS as per salary
-            When the state of the array changes, react will rerender the component and display
-            latest value. 
+        <Route path="/component/Customer/home" element={<Home />} />
+        <Route path="/get/flights" element={<GetFlights />} />
+        <Route path="/search/flights/:customerId" element={<FlightSearch />} />
+        <Route path="/about" element={<AboutUs/>} />
+        <Route path="/Bookings/:customerId" element={<PreviousBookings/>} />
+        <Route path="/bookticket/:customerId/:flightId" element={<BookTicket />} />
+        
+        <Route path="/component/Airline/dashboard" element={<AirlineDashboard />} />
+        <Route path="/airline/home/:aid" element={<AirlineHome />} />
+        <Route path="/airline/about" element={<About />} />
+        <Route path="/airline/addflights/:aid" element={<ADDflights />} />
+        <Route path="/airline/allflights/:aid" element={<Allflights />} />
+        <Route path="/airline/dashboard" element={<AirlineDashboard />} />
+       
+   
+        <Route path="/Executive/dashboard" element={<ExecutiveDashboard />} />
+        <Route path="/executive/about" element={<Aboutexe />} />
 
-       */}
-       <ReadingInput />
-       {/*  create input field in html and apply onChange event handler to it 
-            <input type="" onChange="" />
-
-            set the value types in input box by use to state variable using setState 
-            const [name,setName] = useState(''); -- name=''
-            <input type="text" onChange="(e)=>setName(e.target.value)" />
-       */}
+      </Routes>
+      {/* <Home/> */}
+      {/* <Demo/> */}
+      {/* <TicketBookingPage/> */}
     </div>
   );
 }
 
 export default App;
-
-/* npm start 
-localhost:3000 
-*/
