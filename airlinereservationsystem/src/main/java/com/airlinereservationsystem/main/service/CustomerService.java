@@ -38,4 +38,9 @@ public class CustomerService {
 		customerRepository.delete(customer);
 		
 	}
+
+	public Customer getByUserId(int id) {
+		
+		return customerRepository.findusinguser(id);
+	}
 }

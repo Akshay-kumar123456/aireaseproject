@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ import com.airlinereservationsystem.main.service.SeatService;
 
 @RestController
 @RequestMapping("/customerflight")
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class CustomerFlightController {
 	@Autowired
 	private CustomerService customerService;
@@ -52,15 +54,19 @@ public class CustomerFlightController {
    "seatNumber":1,
    "seatclass":"FIRST_CLASS"
 }]*/
-	@PostMapping("/book/{cid}/{fid}")
-	public ResponseEntity<?> booktickets(@PathVariable("fid") int fid, @PathVariable("cid") int cid,
+	@PostMapping("/bookticket/{cid}/{fid}")
+	public ResponseEntity<?> booktickets( @PathVariable("cid") int cid,@PathVariable("fid") int fid,
 			@RequestBody List<PassengerDto> passengerDtoList) {
 		try {
-
+            System.out.println(passengerDtoList);
 			Customer customer = customerService.getCustomer(cid);
+			
 			Flight flight = flightService.getById(fid);
+			System.out.println(customer); System.out.println(fid);
 			List<CustomerFlight> bookedTickets = new ArrayList<>();
+			System.out.println(flight);
 			double totalPrice = 0;
+			int noOfTickets =0;
 			for (PassengerDto passengerDto : passengerDtoList) {
 				CustomerFlight customerFlight = new CustomerFlight();
 				customerFlight.setCustomer(customer);
@@ -70,10 +76,14 @@ public class CustomerFlightController {
 				customerFlight.setName(passengerDto.getName());
 				customerFlight.setAge(passengerDto.getAge());
 				customerFlight.setGender(passengerDto.getGender());
+				
 				Seat seat = seatService.getseat(passengerDto.getSeatNumber(),fid);
+				System.out.println(seat);
 				customerFlight
 				.setPrice(customerFlightService.price(fid, passengerDto.getAge(),seat.getSeatclass()));
 				customerFlight.setSeat(seat);
+				System.out.println(customerFlight);
+				noOfTickets= noOfTickets+1;
 				seatService.updateseats(seat.getId());
 				totalPrice = totalPrice + (customerFlight.getPrice());
 				// Add the processed ticket to the list
@@ -81,10 +91,12 @@ public class CustomerFlightController {
 				
 				
 			}
-			
+//			 int as=seatService.getavaliableseats(fid);
+//			customerFlightService.updateseats(as,fid);
 			Map<String, Object> response = new HashMap<>();
 			response.put("bookedTickets", bookedTickets);
 			response.put("totalPrice", totalPrice);
+			response.put("noOfTickets",noOfTickets );
 
 			return ResponseEntity.ok().body(response);
 	 }
@@ -92,6 +104,56 @@ public class CustomerFlightController {
 				return ResponseEntity.badRequest().body(e.getMessage());
 			}
 	}
+	
+	
+//	@PostMapping("/bookticket")
+//	public ResponseEntity<?> bookTickets(
+//	    @RequestParam("cid") int cid,
+//	    @RequestParam("fid") int fid,
+//	    @RequestBody List<PassengerDto> passengerDtoList
+//	) {
+//	    try {
+//	        System.out.println(passengerDtoList);
+//	        Customer customer = customerService.getCustomer(cid);
+//	        Flight flight = flightService.getById(fid);
+//	        System.out.println(customer);
+//	        System.out.println(fid);
+//	        List<CustomerFlight> bookedTickets = new ArrayList<>();
+//	        System.out.println(flight);
+//	        double totalPrice = 0;
+//	        int noOfTickets = 0;
+//	        for (PassengerDto passengerDto : passengerDtoList) {
+//	            CustomerFlight customerFlight = new CustomerFlight();
+//	            customerFlight.setCustomer(customer);
+//	            customerFlight.setFlight(flight);
+//	            customerFlight.setDate(LocalDate.now());
+//	            // Set passenger-specific information from the DTO
+//	            customerFlight.setName(passengerDto.getName());
+//	            customerFlight.setAge(passengerDto.getAge());
+//	            customerFlight.setGender(passengerDto.getGender());
+//
+//	            Seat seat = seatService.getseat(passengerDto.getSeatNumber(), fid);
+//	            System.out.println(seat);
+//	            customerFlight.setPrice(customerFlightService.price(fid, passengerDto.getAge(), seat.getSeatclass()));
+//	            customerFlight.setSeat(seat);
+//	            System.out.println(customerFlight);
+//	            noOfTickets = noOfTickets + 1;
+//	            seatService.updateseats(seat.getId());
+//	            totalPrice = totalPrice + (customerFlight.getPrice());
+//	            // Add the processed ticket to the list
+//	            bookedTickets.add(customerFlightService.insert(customerFlight));
+//	        }
+//
+//	        Map<String, Object> response = new HashMap<>();
+//	        response.put("bookedTickets", bookedTickets);
+//	        response.put("totalPrice", totalPrice);
+//
+//	        return ResponseEntity.ok().body(response);
+//	    } catch (Exception e) {
+//	        return ResponseEntity.badRequest().body(e.getMessage());
+//	    }
+//	}
+
 
 	// localhost:8081/flight/bookings/20
 	@GetMapping("/bookings/{cid}") // get your bookings

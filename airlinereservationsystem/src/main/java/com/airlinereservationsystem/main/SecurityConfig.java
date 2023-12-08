@@ -1,5 +1,7 @@
 package com.airlinereservationsystem.main;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,9 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 		.authorizeRequests()
-		.antMatchers("/customer/signup","/executive/add").permitAll()
+		.antMatchers("/flight/getbyairline/{date}/{aid}","/flight/getbytoday/{aid}","/flight//delete/{fid}","/flight/delete/{fid}","/flight/update/{id}/{date}","/flight/add/{aid}","/customerflight/flight/passengers/{fid}/{date}","/flight/getbyairline/{aid}","/airline/statistics/income/{aid}","/airline/statistics/passengers/{aid}","/airline/statistics/flights/{aid}","/customer/signup","/executive/add","/auth/login","/flight/all","/flight/getbysdd","/airline/getall","/route/getall","/flight/getbysdd/filter","/user/login","/flight/getone/{fid}","/getall/{fid}","/getavaliable/{fid}","/customerflight/bookticket/{cid}/{fid}","/customerflight/bookings/{cid}").permitAll()
 		//.antMatchers("/flight/add/{aid}").hasRole("AIRLINE")
-		.antMatchers(HttpMethod.GET,"/user/login").authenticated()
+		.antMatchers(HttpMethod.POST,"/auth/login").authenticated()
 		.anyRequest().authenticated()
 		.and().httpBasic()
 		.and()
@@ -55,5 +57,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		return dao;
 	}
+	
+	@Bean
+	public Logger getLogger() {
+		return LoggerFactory.getLogger("Log Records");
+	}
+	
+	
+	
+	
+	
+	
+	
 
 }

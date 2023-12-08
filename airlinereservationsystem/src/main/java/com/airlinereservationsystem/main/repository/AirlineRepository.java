@@ -9,5 +9,8 @@ public interface AirlineRepository extends JpaRepository<Airline,Integer> {
      
 	@Query("SELECT COUNT(a) FROM Airline a")
 	long getTotalAirlines();
+   
+	@Query("select a from Airline a where a.user.id=?1")
+	Airline getbyuserid(int id);
 
 }

@@ -40,4 +40,9 @@ public class ExecutiveService {
 	        return feedbackRepository.getTotalFeedbacks();
 	    }
 
+		public Executive getByUserId(int id) {
+			
+			return executiveRepository.getbyuserid(id);
+		}
+
 }

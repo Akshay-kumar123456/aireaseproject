@@ -1,6 +1,7 @@
 package com.airlinereservationsystem.main.controller;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +33,7 @@ import com.airlinereservationsystem.main.service.RouteService;
 
 @RestController
 @RequestMapping("/flight")
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class FlightController {
 	@Autowired
 	private FlightService flightService;
@@ -146,11 +149,54 @@ public class FlightController {
 
 		}
 	}
-    // localhost:8081/flight/update/42
-	@PutMapping("/update/{id}") // update flight
-	public ResponseEntity<?> updateFlight(@PathVariable("id") int id, @RequestBody Flight flight) {
+	
+	
+	
+	
+	
+	@GetMapping("/getbytoday/{aid}")
+	public ResponseEntity<?> getflighttoday(@PathVariable("aid") int aid) {
 		try {
-			Flight flight1 = flightService.getById(id);
+			Airline airline = airlineService.getAirline(aid);
+			LocalDate date =LocalDate.now();
+
+			List<Flight> list = flightService.findBy(aid, date);
+			
+			return ResponseEntity.ok().body(list);
+		} catch (InvalidIDException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+    // localhost:8081/flight/update/42
+	@PutMapping("/update/{id}/{date}") // update flight
+	public ResponseEntity<?> updateFlight(@PathVariable("date")String date1, @PathVariable("id") int id, @RequestBody FlightDto flight) {
+		try {
+			LocalDate date = LocalDate.parse(date1);
+			Flight flight1 = flightService.getBydi(id,date);
 			if (flight.getCode() != null)
 				flight1.setCode(flight.getCode());
 			if (flight.getDepartureTime() != null)
@@ -167,7 +213,10 @@ public class FlightController {
 				flight1.setEconomyClassPrice(flight.getEconomyClassPrice());
 			if (flight.getFirstClassPrice() != 0)
 				flight1.setFirstClassPrice(flight.getFirstClassPrice());
-			// Save the updated flight to the service
+			if (flight.getSource() != null && flight.getDestination() != null) {
+	            Route route = routeService.getidbySD(flight.getSource(), flight.getDestination());
+	            flight1.setRoute(route);
+			}
 			flight1 = flightService.insert(flight1);
 
 			return ResponseEntity.ok().body(flight1);
@@ -186,13 +235,91 @@ public class FlightController {
 	    }
 	 
 	 
+	 @GetMapping("/getone/{fid}")
+	 public ResponseEntity<?> getflight(@PathVariable("fid")int id) {
+		 try {
+			Flight flight = flightService.getById(id);
+			System.out.println(flight);
+			return ResponseEntity.ok().body(flight);
+		} catch (InvalidIDException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+			
+		}
+	 }
 	 
 	
 	
 	
+	@GetMapping("/getbysdd")
+	public List<Flight> getFlights(
+            @RequestParam(required = false) String source,
+            @RequestParam(required = false) String destination,
+            @RequestParam(required = false) String date
+    ) {
+		System.out.println(source+destination+date);
+		System.out.println("api called");
+		List<Flight> list =flightService.findby(source, destination, date);
+		
+        return list;
+    }
 	
+	@GetMapping("/getbysdd/filter")
+	public List<Flight> filterFlights(
+	        @RequestParam(required = false) String source,
+	        @RequestParam(required = false) String destination,
+	        @RequestParam(required = false) String date,
+	        @RequestParam(required = false) Integer airlineId
+	) {
+	    System.out.println("Filter API called");
+	    System.out.println("Source: " + source + ", Destination: " + destination + ", Date: " + date + ", Airline ID: " + airlineId);
+
+	 
+	        if (airlineId != null) {
+	            // Call the service method to retrieve flights based on the provided filters
+	            return flightService.filterFlights(source, destination, date, airlineId);
+	        } else {
+	            // If airlineId is null, use a different method (e.g., findby) or handle the case accordingly
+	            return flightService.findby(source, destination, date);
+	        }
+	    
+	}
+
+
 	
+	@PutMapping("/updateflight/{id}")
+	public ResponseEntity<?> updateFlightwithroute (@PathVariable("id") int id, @RequestBody FlightDto flightDto) {
+	    try {
+	        Flight existingFlight = flightService.getById(id);
+	                
+
+	        Airline airline = airlineService.getAirline(existingFlight.getAirline().getId());
+
+	        // If source and destination are provided, update the route
+	        if (flightDto.getSource() != null && flightDto.getDestination() != null) {
+	            Route route = routeService.getidbySD(flightDto.getSource(), flightDto.getDestination());
+	            existingFlight.setRoute(route);
+	        }
+
+	        // Update other flight properties
+	        existingFlight.setCode(flightDto.getCode());
+	        existingFlight.setDepartureTime(flightDto.getDepartureTime());
+	        existingFlight.setDepartureDate(flightDto.getDepartureDate());
+	        existingFlight.setArrivalDate(flightDto.getArrivalDate());
+	        existingFlight.setEconomyClassPrice(flightDto.getEconomyClassPrice());
+	        existingFlight.setFirstClassPrice(flightDto.getFirstClassPrice());
+	        existingFlight.setBusinessClassPrice(flightDto.getBusinessClassPrice());
+	        existingFlight.setAvailableSeats(flightDto.getAvailableSeats());
+
+	        existingFlight = flightService.insert(existingFlight);
+	        return ResponseEntity.ok().body(existingFlight);
+	    } catch (InvalidIDException e) {
+	        return ResponseEntity.badRequest().body(e.getMessage());
+	    }
+	}
+
 	
+
+
 	
 	
 	

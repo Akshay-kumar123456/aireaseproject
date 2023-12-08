@@ -140,6 +140,12 @@ public class CustomerFlightService {
 		
 		return  customerFlightRepository.getTotalPassengers(aid);
 	}
+
+	
+//	public void updateseats(int as, int fid) {
+//		
+//		customerFlightRepository.updateseats(as,fid);
+//	}
 	
 	
 	

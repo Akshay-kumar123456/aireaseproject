@@ -1,5 +1,7 @@
 package com.airlinereservationsystem.main.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +27,24 @@ public class SeatService {
 		
 		return seatRepository.getseat(seatNumber,fid);
 	}
-   @Transactional
+    @Transactional
 	public void updateseats(int id) {
 		seatRepository.updateseat(id);
 		
+	}
+
+	public List<?> getall(int id) {
+		 
+		return seatRepository.findAllbytotal(id);
+	}
+
+	public List<?> getseats(int id) {
+		
+		return seatRepository.findavaliable(id);
+		
+	}
+	
+	public int getavaliableseats(int id) {
+		return seatRepository.countAvailableSeats(id);
 	}
 }

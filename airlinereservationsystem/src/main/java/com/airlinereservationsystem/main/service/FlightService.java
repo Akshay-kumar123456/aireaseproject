@@ -1,8 +1,11 @@
 package com.airlinereservationsystem.main.service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -61,5 +64,48 @@ public class FlightService {
 
 		return flightRepository.findBy(aid, date);
 	}
+	
+//	public List<Flight> findby(String source, String destination, String date) {
+//		
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); 
+//		LocalDate parsedDate = LocalDate.parse(date,formatter);
+//		List<Flight> list =flightRepository.findBy(source, destination, parsedDate);
+//	
+//		return list;
+//	}
+//   
+//	public List<Flight> filterFlights(String source, String destination, String date, int airlineId) {
+//		
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); 
+//		LocalDate parsedDate = LocalDate.parse(date,formatter);
+//		List<Flight> list =flightRepository.findByfilter(source, destination, parsedDate,airlineId);
+//	
+//		return list;
+//	}
+	public List<Flight> findby(String source, String destination, String date) {
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); 
+	    LocalDate parsedDate = LocalDate.parse(date, formatter);
+	    List<Flight> list = flightRepository.findBy(source, destination, parsedDate);
+	    return list;
+	}
 
+	public List<Flight> filterFlights(String source, String destination, String date, int airlineId) {
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); 
+	    LocalDate parsedDate = LocalDate.parse(date, formatter);
+	    List<Flight> list = flightRepository.findByfilter(source, destination, parsedDate, airlineId);
+	    return list;
+	}
+
+	 @Transactional
+		public void update(int i, int fid) {
+			flightRepository.update(i,fid);
+			
+		}
+
+	public Flight getBydi(int id, LocalDate date) {
+		
+		return flightRepository.getbydi(id,date);
+	}
+
+	
 }

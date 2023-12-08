@@ -37,4 +37,9 @@ public class AirlineService {
 	public void deleteAirline(Airline airline) {
 		airlineRepository.delete(airline);
 	}
+
+	public Airline getByUserId(int id) {
+		// TODO Auto-generated method stub
+		return airlineRepository.getbyuserid(id);
+	}
 }
